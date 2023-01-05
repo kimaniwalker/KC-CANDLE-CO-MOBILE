@@ -4,15 +4,27 @@
     "slug": "kcmobile",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/KCICON.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
+      "image": "./assets/KCMOBILESPLASH.png",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
+    "scheme": "kcmobile",
+    "plugins": [
+      [
+        "@stripe/stripe-react-native",
+        {
+          "merchantIdentifier": "merchant.kustomcharmz.kcmobileapp",
+          "enableGooglePay": true
+        }
+      ]
+    ],
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 0,
+      "checkAutomatically": "ON_LOAD",
+      "enabled": true,
     },
     "assetBundlePatterns": [
       "**/*"
