@@ -16,8 +16,11 @@ import HomeScreen from './HomeScreen';
 import SignUpScreen from './SignUpScreen';
 import CollectShippingScreen from './CollectShippingScreen';
 import { Fonts } from '../styles/Fonts';
+import Constants from 'expo-constants';
+
 
 export default function CartScreen({ navigation }: any) {
+    const URL: string = Constants.expoConfig?.extra?.STAGING_API_URL
     const { cart, metadata, appleParams, clearCartItems } = useCartContext()
     const { user, getUser, setUser } = useUserContext()
     const total = cart?.reduce((total: number, product: any) => total + (product.price * product.qty), 0)
@@ -46,7 +49,7 @@ export default function CartScreen({ navigation }: any) {
             address: user.address,
             phone: user.phone
         }
-        const response = await fetch(`http://localhost:3000/api/payments/kcmobile/order`, {
+        const response = await fetch(URL + `api/payments/kcmobile/order`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

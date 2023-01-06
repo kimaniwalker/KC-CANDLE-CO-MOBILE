@@ -40,6 +40,10 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "PRODUCTION_API_URL": "https://www.kustomcharmz.com/",
+      "STAGING_API_URL": "http://localhost:3000/"
     }
   }
 }

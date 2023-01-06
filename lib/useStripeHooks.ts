@@ -1,5 +1,8 @@
 import { Alert } from "react-native";
 import { useStripe } from "@stripe/stripe-react-native";
+import Constants from 'expo-constants';
+
+const URL: string = Constants.expoConfig?.extra?.STAGING_API_URL
 
 
 export async function getBillingPortalUrl(customer_id: string, return_url?: string) {
@@ -9,7 +12,7 @@ export async function getBillingPortalUrl(customer_id: string, return_url?: stri
     }
 
     try {
-        const res = await fetch('http://wwww.localhost:3000/api/payments/customerportal', {
+        const res = await fetch(URL + 'api/payments/customerportal', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -36,7 +39,7 @@ export async function getCustomerDetails(customer_id: string) {
     }
 
     try {
-        const res = await fetch('http://wwww.localhost:3000/api/payments/customerinfo', {
+        const res = await fetch(URL + 'api/payments/customerinfo', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -60,7 +63,7 @@ export async function getCustomerDetails(customer_id: string) {
 
 
 export async function fetchPaymentSheetParams() {
-    const response = await fetch(`http://localhost:3000/api/payments/kcmobile/createPaymentIntent`, {
+    const response = await fetch(URL + `api/payments/kcmobile/createPaymentIntent`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
