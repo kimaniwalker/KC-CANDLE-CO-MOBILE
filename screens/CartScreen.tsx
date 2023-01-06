@@ -20,7 +20,8 @@ import Constants from 'expo-constants';
 
 
 export default function CartScreen({ navigation }: any) {
-    const URL: string = Constants.expoConfig?.extra?.STAGING_API_URL
+    const ENV = Constants.expoConfig?.extra?.APP_ENV
+    const URL: string = ENV === 'production' ? Constants.expoConfig?.extra?.PRODUCTION_API_URL : Constants.expoConfig?.extra?.STAGING_API_URL
     const { cart, metadata, appleParams, clearCartItems } = useCartContext()
     const { user, getUser, setUser } = useUserContext()
     const total = cart?.reduce((total: number, product: any) => total + (product.price * product.qty), 0)

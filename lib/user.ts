@@ -2,7 +2,8 @@ import { Alert } from "react-native";
 import { UserProps } from "./types";
 import Constants from 'expo-constants';
 
-const URL: string = Constants.expoConfig?.extra?.STAGING_API_URL
+const ENV = Constants.expoConfig?.extra?.APP_ENV
+const URL: string = ENV === 'production' ? Constants.expoConfig?.extra?.PRODUCTION_API_URL : Constants.expoConfig?.extra?.STAGING_API_URL
 
 
 
