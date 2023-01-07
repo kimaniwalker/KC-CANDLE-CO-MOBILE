@@ -17,12 +17,6 @@ export default function Home() {
     const [showSignUp, setShowSignUp] = React.useState(false)
     const navigation: any = useNavigation()
 
-    const Web = (
-        <WebView
-            style={{ flex: 1 }}
-            source={{ uri: 'http://www.localhost:3000' }}
-        />
-    )
     const MobileHome = (
         <>
             <PromoBanner message='Become a Vip member and receive exclusive deals and discounts' messagecolor='white' />

@@ -2,13 +2,9 @@ import React from 'react'
 import { useUserContext } from '../context/user'
 import SubscriptionSignup from '../components/profile/SubscriptionSignup'
 import OptionCard from '../components/profile/OptionCard'
-import StyledButton from '../styles/StyledButton'
 import styled from 'styled-components/native'
 import { ScrollView, Text, View } from 'react-native'
-import { WebView } from 'react-native-webview';
-import BillingPortal from '../components/profile/BillingPortal'
 import Header from '../components/home/Header'
-import CollectShippingInfo from '../components/profile/CollectShippingInfo'
 import { Colors } from '../styles/Colors'
 import { removeItem } from '../lib/UseAuthHooks'
 import { Fonts } from '../styles/Fonts'
@@ -52,12 +48,7 @@ export default function ProfileScreen({ navigation }: any) {
             </ScrollView>
         </>
     )
-    const MobileWebView = (
-        <WebView
-            style={{ flex: 1 }}
-            source={{ uri: 'http://www.localhost:3000/profile' }}
-        />
-    )
+
     /* const content = !user.address ? <CollectShippingInfo /> : vipContent */
     if (!user.customer_id) return <SubscriptionSignup />
     return vipContent

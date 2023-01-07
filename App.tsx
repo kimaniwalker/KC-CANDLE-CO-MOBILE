@@ -166,11 +166,10 @@ export default function App() {
   return (
 
     <StripeProvider
-      publishableKey="pk_test_51JSByuLJedda0w0cpVrGNZaPuQV6AmVhIX0fVJipuqFC31xAKtw9XyhzNFk1uHKuv1RxlLWzS2CajNeaem8Zg3xm00Ndb4NnaK"
+      publishableKey="pk_live_51JSByuLJedda0w0cMz6MiaVtj7iv6KcTPOjjiKHAmAM7td7NPY0tN2hIUT2CP6UVzp6GUVMQ81InvlNJZAwxFxjd00Xt4ZLdg5"
       merchantIdentifier="merchant.kustomcharmz.kcmobileapp"
     >
       <ToastProvider>
-
         <UserWrapper>
           <CartWrapper>
             <NavigationContainer>

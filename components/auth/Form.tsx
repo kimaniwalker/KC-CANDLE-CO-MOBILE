@@ -9,6 +9,8 @@ import StyledButton from '../../styles/StyledButton'
 import Header from '../home/Header'
 import { useForm, Controller } from "react-hook-form";
 import { Colors } from '../../styles/Colors'
+import Constants from 'expo-constants';
+
 
 
 
@@ -19,6 +21,8 @@ type Props = {
 }
 export default function Form({ isSignup, setShowSignUp, showSignUp }: Props) {
 
+    const ENV = Constants.expoConfig?.extra?.APP_ENV
+    const URL: string = ENV === 'production' ? Constants.expoConfig?.extra?.PRODUCTION_API_URL : Constants.expoConfig?.extra?.STAGING_API_URL
     const { user, setUser, setLoggedIn } = useUserContext()
     const toast = useToast()
     const { control, handleSubmit, formState: { errors, isValid } } = useForm({
@@ -57,7 +61,7 @@ export default function Form({ isSignup, setShowSignUp, showSignUp }: Props) {
         }
 
         try {
-            const res = await fetch(`http://www.localhost:3000/api/vip/createNewCalendar`, {
+            const res = await fetch(`${URL}api/vip/createNewCalendar`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(body),

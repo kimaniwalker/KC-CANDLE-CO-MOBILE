@@ -7,6 +7,8 @@ import StyledButton from '../../styles/StyledButton';
 import { Colors } from '../../styles/Colors';
 import { Entypo } from '@expo/vector-icons';
 import { Fonts } from '../../styles/Fonts';
+import Constants from 'expo-constants';
+
 
 
 type Props = {
@@ -15,6 +17,8 @@ type Props = {
 
 
 export default function CandlePicker({ id }: Props) {
+    const ENV = Constants.expoConfig?.extra?.APP_ENV
+    const URL: string = ENV === 'production' ? Constants.expoConfig?.extra?.PRODUCTION_API_URL : Constants.expoConfig?.extra?.STAGING_API_URL
 
     const { user } = useUserContext()
     const [calendar, setCalendar] = useState<any>([])
@@ -137,7 +141,7 @@ export default function CandlePicker({ id }: Props) {
         }
 
         try {
-            const res = await fetch(`http://www.localhost:3000/api/vip/updateCalendar`, {
+            const res = await fetch(`${URL}api/vip/updateCalendar`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(body),
@@ -177,7 +181,7 @@ export default function CandlePicker({ id }: Props) {
         }
 
         try {
-            const res = await fetch(`http://www.localhost:3000/api/vip/getUserCalendar`, {
+            const res = await fetch(`${URL}api/vip/getUserCalendar`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(body),

@@ -10,7 +10,7 @@
         "staging": {
             "distribution": "internal",
             "env": {
-                "APP_ENV": "staging"
+                "APP_ENV": "production"
             }
         },
         "production": {

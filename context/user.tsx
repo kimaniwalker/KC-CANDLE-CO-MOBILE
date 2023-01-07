@@ -43,7 +43,7 @@ export const UserWrapper = ({ children }: UserProviderProps) => {
 
     React.useEffect(() => {
 
-        getPrevSession()
+        //getPrevSession()
         findCustomerInfo()
     }, [])
 
