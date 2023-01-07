@@ -26,6 +26,10 @@ export default () => {
                 fallbackToCacheTimeout: 0,
                 checkAutomatically: "ON_LOAD",
                 enabled: true,
+                url: "https://u.expo.dev/7b217932-14e6-4fdd-8d52-b0d11c117410"
+            },
+            runtimeVersion: {
+                "policy": "sdkVersion"
             },
             assetBundlePatterns: [
                 "**/*"
