@@ -8,6 +8,7 @@ import { Colors } from '../../styles/Colors';
 import { Entypo } from '@expo/vector-icons';
 import { Fonts } from '../../styles/Fonts';
 import Constants from 'expo-constants';
+import { Scents } from '../../data/Scents';
 
 
 
@@ -36,12 +37,6 @@ export default function CandlePicker({ id }: Props) {
     const [november, setNovember] = useState('')
     const [december, setDecember] = useState('')
     const [open, setOpen] = useState(false);
-    const [items, setItems] = useState([
-        { label: 'French Vanilla', value: 'French Vanilla' },
-        { label: 'Luxery Linen', value: 'Luxery Linen' },
-        { label: 'Carribean Coconut', value: 'Carribean Cocunut' },
-        { label: 'Strawberry Poundcake', value: 'Strawberry Poundcake' },
-    ]);
     const [key, setKey] = useState(0)
 
 
@@ -81,13 +76,13 @@ export default function CandlePicker({ id }: Props) {
             month: 'june',
             setter: setJune,
             value: june,
-            image: require('../../assets/calendar/June.png')
+            image: require('../../assets/calendar/July.png')
         },
         {
             month: 'july',
             setter: setJuly,
             value: july,
-            image: require('../../assets/calendar/July.png')
+            image: require('../../assets/calendar/June.png')
         },
         {
             month: 'august',
@@ -252,10 +247,9 @@ export default function CandlePicker({ id }: Props) {
                                         <DropDownPicker
                                             open={open}
                                             value={item.value}
-                                            items={items}
+                                            items={Scents}
                                             setOpen={setOpen}
                                             setValue={item.setter}
-                                            setItems={setItems}
                                             listMode="SCROLLVIEW"
                                             scrollViewProps={{
                                                 horizontal: true
