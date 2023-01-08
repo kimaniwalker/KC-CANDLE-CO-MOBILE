@@ -11,6 +11,7 @@
         "staging": {
             "distribution": "internal",
             "channel": "staging",
+            "credentialsSource": "local",
             "env": {
                 "APP_ENV": "production"
             }
