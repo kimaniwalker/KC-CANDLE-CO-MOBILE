@@ -2,6 +2,7 @@ export default () => {
     return {
         expo: {
             name: "KC CANDLE CO",
+            owner: "kimaniwalker",
             slug: "kcmobile",
             version: "1.0.0",
             orientation: "portrait",
