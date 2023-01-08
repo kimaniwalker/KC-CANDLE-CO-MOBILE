@@ -15,6 +15,9 @@
             "env": {
                 "APP_ENV": "production",
             },
+            "ios": {
+                "enterpriseProvisioning": "adhoc"
+            }
         },
         "production": {
             "channel": "production",
