@@ -13,8 +13,8 @@
             "channel": "staging",
             "credentialsSource": "local",
             "env": {
-                "APP_ENV": "production"
-            }
+                "APP_ENV": "production",
+            },
         },
         "production": {
             "channel": "production",
