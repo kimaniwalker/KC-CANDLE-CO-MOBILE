@@ -1,4 +1,4 @@
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, SafeAreaView, StatusBar, StyleSheet, Text, View } from 'react-native';
 import { StripeProvider } from '@stripe/stripe-react-native';
 import PaymentScreen from './PaymentScreen';
 import { initStripe } from '@stripe/stripe-react-native';
@@ -31,6 +31,7 @@ import SingleProduct from './components/shop/SingleProduct';
 import CartScreen from './screens/CartScreen';
 import { ToastProvider } from 'react-native-toast-notifications'
 import CollectShippingScreen from './screens/CollectShippingScreen';
+import Header from './components/home/Header';
 
 
 export default function App() {
@@ -164,23 +165,28 @@ export default function App() {
 
   if (!fontsLoaded) return <ActivityIndicator size='large' />
   return (
-
-    <StripeProvider
-      publishableKey="pk_live_51JSByuLJedda0w0cMz6MiaVtj7iv6KcTPOjjiKHAmAM7td7NPY0tN2hIUT2CP6UVzp6GUVMQ81InvlNJZAwxFxjd00Xt4ZLdg5"
-      merchantIdentifier="merchant.kustomcharmz.kcmobileapp"
-    >
-      <ToastProvider>
-        <UserWrapper>
-          <CartWrapper>
-            <NavigationContainer>
-              <Stack.Navigator>
-                <Stack.Screen name="KC CANDLE CO" component={HomePage} />
-              </Stack.Navigator>
-            </NavigationContainer>
-          </CartWrapper>
-        </UserWrapper>
-      </ToastProvider>
-    </StripeProvider>
+    <>
+      <StatusBar barStyle="light-content" />
+      <StripeProvider
+        publishableKey="pk_live_51JSByuLJedda0w0cMz6MiaVtj7iv6KcTPOjjiKHAmAM7td7NPY0tN2hIUT2CP6UVzp6GUVMQ81InvlNJZAwxFxjd00Xt4ZLdg5"
+        merchantIdentifier="merchant.kustomcharmz.kcmobileapp"
+      >
+        <ToastProvider>
+          <UserWrapper>
+            <CartWrapper>
+              <NavigationContainer>
+                <Stack.Navigator>
+                  <Stack.Screen options={{
+                    headerTransparent: true,
+                    headerShown: false
+                  }} name="KC CANDLE CO" component={HomePage} />
+                </Stack.Navigator>
+              </NavigationContainer>
+            </CartWrapper>
+          </UserWrapper>
+        </ToastProvider>
+      </StripeProvider>
+    </>
   );
 }
 

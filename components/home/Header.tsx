@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image } from 'react-native'
+import { Image, SafeAreaView } from 'react-native'
 import styled from 'styled-components/native'
 import { Colors } from '../../styles/Colors'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
@@ -56,23 +56,24 @@ export default function Header({ logoUrl }: Props) {
         : <Logo source={require('../../assets/logo.png')} />
 
     return (
-        <Wrapper>
+        <Content>
 
-            {HeaderLogo}
-
-            <LockWrapper>
-                <Button onPress={openCartPage}>
-
-                    <MaterialCommunityIcons name="cart-outline" size={38} color="white" />
-                    {cartTotal >= 1 && (
-                        <CountWrapper>
-                            <Count>{cartTotal}</Count>
-                        </CountWrapper>
-                    )}
-                </Button>
-
-            </LockWrapper>
-        </Wrapper>
+            <SafeAreaView>
+                <Wrapper>
+                    {HeaderLogo}
+                    <LockWrapper>
+                        <Button onPress={openCartPage}>
+                            <MaterialCommunityIcons name="cart-outline" size={38} color="white" />
+                            {cartTotal >= 1 && (
+                                <CountWrapper>
+                                    <Count>{cartTotal}</Count>
+                                </CountWrapper>
+                            )}
+                        </Button>
+                    </LockWrapper>
+                </Wrapper>
+            </SafeAreaView>
+        </Content>
     )
 }
 
@@ -83,6 +84,11 @@ const Wrapper = styled.View`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+`
+const Content = styled.View`
+    width: 100%;
+    background-color: ${Colors.blueGreen};
+
 `
 const Logo = styled(Image)`
    height: 100px;
