@@ -11,7 +11,7 @@
         "staging": {
             "distribution": "internal",
             "channel": "staging",
-            "credentialsSource": "local",
+            "credentialsSource": "remote",
             "env": {
                 "APP_ENV": "production"
             },
