@@ -148,6 +148,7 @@ export default function CartScreen({ navigation }: any) {
 
         if (error) {
             Alert.alert(`Error code: ${error.code}`, error.message);
+            setShowAddressVerification(false)
         } else {
             Alert.alert(
                 "Success",

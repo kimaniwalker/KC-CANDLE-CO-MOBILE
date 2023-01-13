@@ -1,17 +1,11 @@
 import { ActivityIndicator, SafeAreaView, StatusBar, StyleSheet, Text, View } from 'react-native';
 import { StripeProvider } from '@stripe/stripe-react-native';
-import PaymentScreen from './PaymentScreen';
 import { initStripe } from '@stripe/stripe-react-native';
 import React from 'react';
-import SignUpOption from './components/payments/SignUpOption';
-import CheckoutScreen from './components/profile/SubscriptionSignup';
 import { UserWrapper, useUserContext } from './context/user';
-import Form from './components/auth/Form';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import SignUpScreen from './screens/SignUpScreen';
-import LoginScreen from './screens/LoginScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import BillingScreen from './screens/BillingScreen';
 import CalendarScreen from './screens/CalendarScreen';
@@ -31,15 +25,18 @@ import SingleProduct from './components/shop/SingleProduct';
 import CartScreen from './screens/CartScreen';
 import { ToastProvider } from 'react-native-toast-notifications'
 import CollectShippingScreen from './screens/CollectShippingScreen';
-import Header from './components/home/Header';
+import Constants from 'expo-constants';
+
+
 
 
 export default function App() {
-
+  const ENV = Constants.expoConfig?.extra?.APP_ENV
+  const KEY: string = ENV === 'production' ? Constants.expoConfig?.extra?.STRIPEPK_PRODUCTION : Constants.expoConfig?.extra?.STRIPEPK_STAGING
 
   React.useEffect(() => {
     initStripe({
-      publishableKey: "pk_live_51JSByuLJedda0w0cMz6MiaVtj7iv6KcTPOjjiKHAmAM7td7NPY0tN2hIUT2CP6UVzp6GUVMQ81InvlNJZAwxFxjd00Xt4ZLdg5",
+      publishableKey: KEY,
       merchantIdentifier: 'merchant.kustomcharmz.kcmobileapp',
       urlScheme: "kcmobile",
     });
@@ -168,7 +165,7 @@ export default function App() {
     <>
       <StatusBar barStyle="light-content" />
       <StripeProvider
-        publishableKey="pk_live_51JSByuLJedda0w0cMz6MiaVtj7iv6KcTPOjjiKHAmAM7td7NPY0tN2hIUT2CP6UVzp6GUVMQ81InvlNJZAwxFxjd00Xt4ZLdg5"
+        publishableKey={KEY}
         merchantIdentifier="merchant.kustomcharmz.kcmobileapp"
       >
         <ToastProvider>

@@ -4,6 +4,8 @@ import styled from 'styled-components/native'
 import { Fonts } from '../../styles/Fonts'
 import StyledButton from '../../styles/StyledButton'
 import CollectShippingInfo from '../profile/CollectShippingInfo'
+import { MaterialIcons } from '@expo/vector-icons';
+import { Colors } from '../../styles/Colors'
 
 type Props = {
     checkout: () => void,
@@ -35,6 +37,12 @@ export default function VerifyDetails({ visible, setVisible, checkout, address }
                     <Wrapper>
                         <Image style={{ width: 140, height: 70, marginBottom: 30 }} source={require('../../assets/logo.png')} />
 
+                        <IconWrapper>
+                            <Button onPress={() => setVisible(false)}>
+                                <CloseIcon name="clear" size={32} color="white" />
+                            </Button>
+                        </IconWrapper>
+
 
                         <Title>Verify Your Address</Title>
                         <Heading>Is this the correct address for your order ?</Heading>
@@ -56,13 +64,14 @@ const Wrapper = styled.View`
     align-items: center;
     margin-top: 22px;
     padding: 0 16px;
+    position: relative; 
 `
 const Modal = styled.Modal`
     margin: 20px;
     border-radius: 20px;
     padding: 35px;
     align-items: center;
-    box-shadow: 7px 5px 5px #000;  
+    box-shadow: 7px 5px 5px #000; 
 `
 const Heading = styled.Text`
     font-size: 24px;
@@ -81,4 +90,17 @@ const Title = styled.Text`
     font-family: ${Fonts.bold};
     text-align: center;
     margin-bottom: 30px;
+`
+const CloseIcon = styled(MaterialIcons)`
+    
+`
+const IconWrapper = styled.View` 
+   position: absolute;
+   top: 40px;
+   right: 30px;
+`
+const Button = styled.Pressable`
+    border-radius: 50%;
+    background-color: ${Colors.dark};
+    padding: 8px;
 `
