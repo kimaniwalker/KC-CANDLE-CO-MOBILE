@@ -108,6 +108,7 @@ export const Products = [
             "Wax Melts",
             "4oz",
             "8oz",
+            "10oz",
             "12oz"
         ],
         isAvailable: true,
@@ -176,6 +177,7 @@ export const Products = [
             "Wax Melts",
             "4oz",
             "8oz",
+            "10oz",
             "12oz"
         ],
         isAvailable: true,
@@ -209,6 +211,7 @@ export const Products = [
             "Wax Melts",
             "4oz",
             "8oz",
+            "10oz",
             "12oz"
         ],
         isAvailable: true,
@@ -639,6 +642,7 @@ export const Products = [
         available_sizes: [
             "Wax Melts",
             "4oz",
+            "10oz",
             "8oz",
             "12oz"
         ],
@@ -727,6 +731,7 @@ export const Products = [
         available_sizes: [
             "Wax Melts",
             "4oz",
+            "10oz",
             "8oz",
             "12oz"
         ],

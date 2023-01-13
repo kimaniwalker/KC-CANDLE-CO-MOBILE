@@ -34,8 +34,7 @@ export default function CheckoutScreen() {
                 disclaimer: "",
                 category: "membership",
                 images: [
-                    require('../../assets/featured/fruityloops.png'),
-                    require('../../assets/featured/fruityloops.png')
+                    require('../../assets/product-images/KCSUBSCRIPTION.png')
                 ],
                 rating: {
                     rate: 3.9,
@@ -58,8 +57,7 @@ export default function CheckoutScreen() {
                 disclaimer: "",
                 category: "membership",
                 images: [
-                    require('../../assets/featured/fruityloops.png'),
-                    require('../../assets/featured/fruityloops.png')
+                    require('../../assets/product-images/KCSUBSCRIPTION.png')
                 ],
                 rating: {
                     rate: 3.9,

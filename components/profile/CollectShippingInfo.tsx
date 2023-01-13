@@ -13,15 +13,10 @@ import { Fonts } from '../../styles/Fonts';
 import { Colors } from '../../styles/Colors';
 
 type Props = {
-    line1: string
-    line2?: string
-    postal_code: string | number
-    state: string
-    country: string
-    phone: string | number,
-    city: string
+    isVerification?: boolean
+    dismissModal?: () => void
 }
-export default function CollectShippingInfo() {
+export default function CollectShippingInfo({ isVerification = false, dismissModal }: Props) {
 
     const { user, setUser } = useUserContext()
     const address = user?.address?.split("-")
@@ -104,6 +99,10 @@ export default function CollectShippingInfo() {
                 animationType: "slide-in",
             })
 
+            if (isVerification && dismissModal) {
+                dismissModal()
+            }
+
 
         }
     };
@@ -112,7 +111,7 @@ export default function CollectShippingInfo() {
     if (!defaultValues) return null
     return (
         <>
-            <Header />
+            {!isVerification && <Header />}
             <ScrollView>
                 <KeyboardAvoidingView behavior='position'>
 
