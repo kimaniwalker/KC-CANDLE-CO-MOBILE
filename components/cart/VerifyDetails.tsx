@@ -35,7 +35,7 @@ export default function VerifyDetails({ visible, setVisible, checkout, address }
                     visible={visible}
                 >
                     <Wrapper>
-                        <Image style={{ width: 140, height: 70, marginBottom: 30 }} source={require('../../assets/logo.png')} />
+                        <Image style={{ width: 140, height: 70, marginBottom: 30 }} source={require('../../assets/KCICONPLAIN.png')} />
 
                         <IconWrapper>
                             <Button onPress={() => setVisible(false)}>
