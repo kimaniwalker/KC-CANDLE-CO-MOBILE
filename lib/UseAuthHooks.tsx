@@ -2,6 +2,10 @@ import React from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Alert } from 'react-native';
 import { UserInfo } from './types';
+import Constants from 'expo-constants';
+
+const ENV = Constants.expoConfig?.extra?.APP_ENV
+const URL: string = ENV === 'production' ? Constants.expoConfig?.extra?.PRODUCTION_API_URL : Constants.expoConfig?.extra?.STAGING_API_URL
 
 
 type Props = {
@@ -61,7 +65,7 @@ export async function getUser(username: string, password: string) {
     }
 
     try {
-        const res = await fetch('http://localhost:3000/api/auth/login', {
+        const res = await fetch(URL + 'api/auth/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -75,8 +79,6 @@ export async function getUser(username: string, password: string) {
                 value: user.user, key: 'user'
             })
             storeAuthToken(user.token)
-
-            Alert.alert('Logging you in')
             return user.user
         } else if (res.status === 401) {
             Alert.alert('Invalid username and password combination')
@@ -96,7 +98,7 @@ export async function Signup(username: string, password: string) {
     }
 
     try {
-        const res = await fetch('http://localhost:3000/api/auth/signup', {
+        const res = await fetch(URL + 'api/auth/signup', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -106,7 +108,6 @@ export async function Signup(username: string, password: string) {
         // waits until the request completes...
         if (res.status === 200) {
             const user = await res.json();
-            Alert.alert('Successful signup')
             return user
         } else {
             Alert.alert('Something went wrong')
@@ -126,7 +127,7 @@ export async function getUserInfo(username: string) {
 
 
     try {
-        const res = await fetch('http://localhost:3000/api/auth/getuser', {
+        const res = await fetch(URL + 'api/auth/getuser', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -153,7 +154,7 @@ export async function getCustomerInfo(customer_id: string) {
     }
 
     try {
-        const res = await fetch('http://localhost:3000/api/payments/customerinfo', {
+        const res = await fetch(URL + 'api/payments/customerinfo', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -163,7 +164,6 @@ export async function getCustomerInfo(customer_id: string) {
         // waits until the request completes...
         if (res.status === 200) {
             const customer = await res.json();
-
             return customer
         } else {
             Alert.alert('Something went wrong')

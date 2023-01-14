@@ -1,5 +1,9 @@
 import { Alert } from "react-native";
 import { UserProps } from "./types";
+import Constants from 'expo-constants';
+
+const ENV = Constants.expoConfig?.extra?.APP_ENV
+const URL: string = ENV === 'production' ? Constants.expoConfig?.extra?.PRODUCTION_API_URL : Constants.expoConfig?.extra?.STAGING_API_URL
 
 
 
@@ -12,7 +16,7 @@ export async function updateUser({ user }: UserProps) {
 
 
     try {
-        const res = await fetch('http://localhost:3000/api/auth/updateUser', {
+        const res = await fetch(URL + 'api/auth/updateUser', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -50,7 +54,7 @@ export async function updateUserByEmail({ user }: UserProps) {
 
 
     try {
-        const res = await fetch('http://localhost:3000/api/auth/updateuserbyemail', {
+        const res = await fetch(URL + 'api/auth/updateuserbyemail', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

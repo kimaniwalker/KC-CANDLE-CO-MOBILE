@@ -43,7 +43,12 @@ export const UserWrapper = ({ children }: UserProviderProps) => {
 
     React.useEffect(() => {
 
-        //getPrevSession()
+        getPrevSession()
+        findCustomerInfo()
+    }, [])
+
+    React.useEffect(() => {
+
         findCustomerInfo()
     }, [user])
 
@@ -51,7 +56,7 @@ export const UserWrapper = ({ children }: UserProviderProps) => {
 
     const getPrevSession = async () => {
         let session = await checkIfUserExist('user')
-        if (session) {
+        if (session && session.customer_id) {
 
             setUser(session)
             setLoggedIn(true)

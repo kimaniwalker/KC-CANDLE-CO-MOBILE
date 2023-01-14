@@ -1,17 +1,11 @@
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, SafeAreaView, StatusBar, StyleSheet, Text, View } from 'react-native';
 import { StripeProvider } from '@stripe/stripe-react-native';
-import PaymentScreen from './PaymentScreen';
 import { initStripe } from '@stripe/stripe-react-native';
 import React from 'react';
-import SignUpOption from './components/payments/SignUpOption';
-import CheckoutScreen from './components/profile/SubscriptionSignup';
 import { UserWrapper, useUserContext } from './context/user';
-import Form from './components/auth/Form';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import SignUpScreen from './screens/SignUpScreen';
-import LoginScreen from './screens/LoginScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import BillingScreen from './screens/BillingScreen';
 import CalendarScreen from './screens/CalendarScreen';
@@ -31,14 +25,18 @@ import SingleProduct from './components/shop/SingleProduct';
 import CartScreen from './screens/CartScreen';
 import { ToastProvider } from 'react-native-toast-notifications'
 import CollectShippingScreen from './screens/CollectShippingScreen';
+import Constants from 'expo-constants';
+
+
 
 
 export default function App() {
-
+  const ENV = Constants.expoConfig?.extra?.APP_ENV
+  const KEY: string = ENV === 'production' ? Constants.expoConfig?.extra?.STRIPEPK_PRODUCTION : Constants.expoConfig?.extra?.STRIPEPK_STAGING
 
   React.useEffect(() => {
     initStripe({
-      publishableKey: "pk_test_51JSByuLJedda0w0cpVrGNZaPuQV6AmVhIX0fVJipuqFC31xAKtw9XyhzNFk1uHKuv1RxlLWzS2CajNeaem8Zg3xm00Ndb4NnaK",
+      publishableKey: KEY,
       merchantIdentifier: 'merchant.kustomcharmz.kcmobileapp',
       urlScheme: "kcmobile",
     });
@@ -164,24 +162,28 @@ export default function App() {
 
   if (!fontsLoaded) return <ActivityIndicator size='large' />
   return (
-
-    <StripeProvider
-      publishableKey="pk_test_51JSByuLJedda0w0cpVrGNZaPuQV6AmVhIX0fVJipuqFC31xAKtw9XyhzNFk1uHKuv1RxlLWzS2CajNeaem8Zg3xm00Ndb4NnaK"
-      merchantIdentifier="merchant.kustomcharmz.kcmobileapp"
-    >
-      <ToastProvider>
-
-        <UserWrapper>
-          <CartWrapper>
-            <NavigationContainer>
-              <Stack.Navigator>
-                <Stack.Screen name="KC CANDLE CO" component={HomePage} />
-              </Stack.Navigator>
-            </NavigationContainer>
-          </CartWrapper>
-        </UserWrapper>
-      </ToastProvider>
-    </StripeProvider>
+    <>
+      <StatusBar barStyle="light-content" />
+      <StripeProvider
+        publishableKey={KEY}
+        merchantIdentifier="merchant.kustomcharmz.kcmobileapp"
+      >
+        <ToastProvider>
+          <UserWrapper>
+            <CartWrapper>
+              <NavigationContainer>
+                <Stack.Navigator>
+                  <Stack.Screen options={{
+                    headerTransparent: true,
+                    headerShown: false
+                  }} name="KC CANDLE CO" component={HomePage} />
+                </Stack.Navigator>
+              </NavigationContainer>
+            </CartWrapper>
+          </UserWrapper>
+        </ToastProvider>
+      </StripeProvider>
+    </>
   );
 }
 

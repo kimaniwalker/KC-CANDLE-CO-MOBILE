@@ -7,6 +7,9 @@ import StyledButton from '../../styles/StyledButton';
 import { Colors } from '../../styles/Colors';
 import { Entypo } from '@expo/vector-icons';
 import { Fonts } from '../../styles/Fonts';
+import Constants from 'expo-constants';
+import { Scents } from '../../data/Scents';
+
 
 
 type Props = {
@@ -15,6 +18,8 @@ type Props = {
 
 
 export default function CandlePicker({ id }: Props) {
+    const ENV = Constants.expoConfig?.extra?.APP_ENV
+    const URL: string = ENV === 'production' ? Constants.expoConfig?.extra?.PRODUCTION_API_URL : Constants.expoConfig?.extra?.STAGING_API_URL
 
     const { user } = useUserContext()
     const [calendar, setCalendar] = useState<any>([])
@@ -32,12 +37,6 @@ export default function CandlePicker({ id }: Props) {
     const [november, setNovember] = useState('')
     const [december, setDecember] = useState('')
     const [open, setOpen] = useState(false);
-    const [items, setItems] = useState([
-        { label: 'French Vanilla', value: 'French Vanilla' },
-        { label: 'Luxery Linen', value: 'Luxery Linen' },
-        { label: 'Carribean Coconut', value: 'Carribean Cocunut' },
-        { label: 'Strawberry Poundcake', value: 'Strawberry Poundcake' },
-    ]);
     const [key, setKey] = useState(0)
 
 
@@ -77,13 +76,13 @@ export default function CandlePicker({ id }: Props) {
             month: 'june',
             setter: setJune,
             value: june,
-            image: require('../../assets/calendar/June.png')
+            image: require('../../assets/calendar/July.png')
         },
         {
             month: 'july',
             setter: setJuly,
             value: july,
-            image: require('../../assets/calendar/July.png')
+            image: require('../../assets/calendar/June.png')
         },
         {
             month: 'august',
@@ -137,7 +136,7 @@ export default function CandlePicker({ id }: Props) {
         }
 
         try {
-            const res = await fetch(`http://www.localhost:3000/api/vip/updateCalendar`, {
+            const res = await fetch(`${URL}api/vip/updateCalendar`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(body),
@@ -177,7 +176,7 @@ export default function CandlePicker({ id }: Props) {
         }
 
         try {
-            const res = await fetch(`http://www.localhost:3000/api/vip/getUserCalendar`, {
+            const res = await fetch(`${URL}api/vip/getUserCalendar`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(body),
@@ -225,6 +224,7 @@ export default function CandlePicker({ id }: Props) {
     return (
         <>
 
+
             <Wrapper>
                 <IconWrapper onPress={onButtonClick}>
                     {toggleEdit ? <Entypo name="save" size={32} color="white" />
@@ -233,7 +233,7 @@ export default function CandlePicker({ id }: Props) {
 
 
                 </IconWrapper>
-                <ScrollView showsVerticalScrollIndicator={false} style={{ marginBottom: 16 }}>
+                <ScrollView showsVerticalScrollIndicator={false}>
 
                     {Data.map(item => (
                         <Card key={item.month}>
@@ -248,10 +248,9 @@ export default function CandlePicker({ id }: Props) {
                                         <DropDownPicker
                                             open={open}
                                             value={item.value}
-                                            items={items}
+                                            items={Scents}
                                             setOpen={setOpen}
                                             setValue={item.setter}
-                                            setItems={setItems}
                                             listMode="SCROLLVIEW"
                                             scrollViewProps={{
                                                 horizontal: true
@@ -265,12 +264,13 @@ export default function CandlePicker({ id }: Props) {
 
                         </Card>
                     ))}
-                    <Wrapper>
-                        <StyledButton disabled={false} buttonTitle={toggleEdit ? 'save' : 'edit'} onPress={onButtonClick}></StyledButton>
 
-                    </Wrapper>
+                    <StyledButton disabled={false} buttonTitle={toggleEdit ? 'save' : 'edit'} onPress={onButtonClick}></StyledButton>
+
+
                 </ScrollView>
             </Wrapper>
+
         </>
     )
 }
@@ -294,6 +294,8 @@ const Wrapper = styled.View`
     align-content: center;
     align-items: center;
     position: relative;
+    flex: 1;
+    margin-bottom: 24px;
 `
 
 

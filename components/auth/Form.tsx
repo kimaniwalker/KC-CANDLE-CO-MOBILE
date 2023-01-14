@@ -1,5 +1,5 @@
 import React from 'react'
-import { SafeAreaView } from 'react-native'
+import { KeyboardAvoidingView, SafeAreaView, ScrollView } from 'react-native'
 import { useToast } from 'react-native-toast-notifications'
 import styled from 'styled-components/native'
 import { useUserContext } from '../../context/user'
@@ -9,6 +9,8 @@ import StyledButton from '../../styles/StyledButton'
 import Header from '../home/Header'
 import { useForm, Controller } from "react-hook-form";
 import { Colors } from '../../styles/Colors'
+import Constants from 'expo-constants';
+
 
 
 
@@ -19,6 +21,8 @@ type Props = {
 }
 export default function Form({ isSignup, setShowSignUp, showSignUp }: Props) {
 
+    const ENV = Constants.expoConfig?.extra?.APP_ENV
+    const URL: string = ENV === 'production' ? Constants.expoConfig?.extra?.PRODUCTION_API_URL : Constants.expoConfig?.extra?.STAGING_API_URL
     const { user, setUser, setLoggedIn } = useUserContext()
     const toast = useToast()
     const { control, handleSubmit, formState: { errors, isValid } } = useForm({
@@ -57,7 +61,7 @@ export default function Form({ isSignup, setShowSignUp, showSignUp }: Props) {
         }
 
         try {
-            const res = await fetch(`http://www.localhost:3000/api/vip/createNewCalendar`, {
+            const res = await fetch(`${URL}api/vip/createNewCalendar`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(body),
@@ -102,77 +106,84 @@ export default function Form({ isSignup, setShowSignUp, showSignUp }: Props) {
 
     return (
         <>
-            <SafeAreaView>
-                <Header />
-                <Wrapper>
-                    <Content>
-                        <Title>{title}</Title>
-                        <Subheading>{subheading}</Subheading>
-                        <Label>Email</Label>
-                        {errors.username && <ErrMessage>{errors.username?.message}</ErrMessage>}
-                        <Controller
-                            control={control}
-                            rules={{
-                                required: {
-                                    value: true,
-                                    message: 'Please enter your email address'
-                                },
-                                pattern: {
-                                    value: /^\S+@\S+$/,
-                                    message: 'Must be a valid email address'
-                                },
-                            }}
-                            render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
-                                <Input
-                                    autoCapitalize='none'
-                                    autoCorrect={false}
-                                    onChangeText={onChange}
-                                    value={value}
-                                    placeholder="username"
-                                    isDirty={error ? true : false}
-                                />
 
-                            )}
-                            name="username"
-                        />
+            <ScrollView>
 
-                        <Label>Password</Label>
-                        {errors.password && <ErrMessage>{errors.password?.message}</ErrMessage>}
-                        <Controller
-                            control={control}
-                            rules={{
-                                required: {
-                                    value: true,
-                                    message: 'This is a required field'
-                                },
-                                minLength: {
-                                    value: 8,
-                                    message: 'Must contain at least 8 characters'
-                                },
-                            }}
-                            render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
-                                <Input
-                                    autoCapitalize='none'
-                                    autoCorrect={false}
-                                    onChangeText={onChange}
-                                    value={value}
-                                    secureTextEntry
-                                    placeholder="password"
-                                    isDirty={error ? true : false} />
-                            )}
-                            name="password"
-                        />
 
-                        <SignInView>
-                            <SignInButton onPress={() => setShowSignUp(!showSignUp)}>
-                                <SignInOption>{signInOption}</SignInOption>
-                            </SignInButton>
-                        </SignInView>
-                    </Content>
-                    <StyledButton buttonTitle={buttonTitle} onPress={handleSubmit(handlePress)} disabled={!isValid} />
 
-                </Wrapper>
-            </SafeAreaView>
+                <KeyboardAvoidingView behavior='position'>
+                    <Header />
+                    <Wrapper>
+                        <Content>
+                            <Title>{title}</Title>
+                            <Subheading>{subheading}</Subheading>
+                            <Label>Email</Label>
+                            {errors.username && <ErrMessage>{errors.username?.message}</ErrMessage>}
+                            <Controller
+                                control={control}
+                                rules={{
+                                    required: {
+                                        value: true,
+                                        message: 'Please enter your email address'
+                                    },
+                                    pattern: {
+                                        value: /^\S+@\S+$/,
+                                        message: 'Must be a valid email address'
+                                    },
+                                }}
+                                render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
+                                    <Input
+                                        autoCapitalize='none'
+                                        autoCorrect={false}
+                                        onChangeText={onChange}
+                                        value={value}
+                                        placeholder="username"
+                                        isDirty={error ? true : false}
+                                    />
+
+                                )}
+                                name="username"
+                            />
+
+                            <Label>Password</Label>
+                            {errors.password && <ErrMessage>{errors.password?.message}</ErrMessage>}
+                            <Controller
+                                control={control}
+                                rules={{
+                                    required: {
+                                        value: true,
+                                        message: 'This is a required field'
+                                    },
+                                    minLength: {
+                                        value: 8,
+                                        message: 'Must contain at least 8 characters'
+                                    },
+                                }}
+                                render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
+                                    <Input
+                                        autoCapitalize='none'
+                                        autoCorrect={false}
+                                        onChangeText={onChange}
+                                        value={value}
+                                        secureTextEntry
+                                        placeholder="password"
+                                        isDirty={error ? true : false} />
+                                )}
+                                name="password"
+                            />
+
+                            <SignInView>
+                                <SignInButton onPress={() => setShowSignUp(!showSignUp)}>
+                                    <SignInOption>{signInOption}</SignInOption>
+                                </SignInButton>
+                            </SignInView>
+                        </Content>
+                        <StyledButton buttonTitle={buttonTitle} onPress={handleSubmit(handlePress)} disabled={!isValid} />
+
+                    </Wrapper>
+                </KeyboardAvoidingView>
+            </ScrollView>
+
         </>
     )
 }

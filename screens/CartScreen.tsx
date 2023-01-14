@@ -16,14 +16,19 @@ import HomeScreen from './HomeScreen';
 import SignUpScreen from './SignUpScreen';
 import CollectShippingScreen from './CollectShippingScreen';
 import { Fonts } from '../styles/Fonts';
+import Constants from 'expo-constants';
+import VerifyDetails from '../components/cart/VerifyDetails';
+
 
 export default function CartScreen({ navigation }: any) {
+    const ENV = Constants.expoConfig?.extra?.APP_ENV
+    const URL: string = ENV === 'production' ? Constants.expoConfig?.extra?.PRODUCTION_API_URL : Constants.expoConfig?.extra?.STAGING_API_URL
     const { cart, metadata, appleParams, clearCartItems } = useCartContext()
     const { user, getUser, setUser } = useUserContext()
     const total = cart?.reduce((total: number, product: any) => total + (product.price * product.qty), 0)
     const { initPaymentSheet, presentPaymentSheet } = useStripe()
     const [loading, setLoading] = React.useState(false)
-    const [isReady, setIsReady] = React.useState(false)
+    const [showAddressVerification, setShowAddressVerification] = React.useState(false)
     const shipping = user.customer_id ? 0 : 8
 
     const monthlySubscriptionFound = cart.find((element: { description: string }) => element.description === 'KC CANDLE CO SUBSCRIPTION M')
@@ -46,7 +51,7 @@ export default function CartScreen({ navigation }: any) {
             address: user.address,
             phone: user.phone
         }
-        const response = await fetch(`http://localhost:3000/api/payments/kcmobile/order`, {
+        const response = await fetch(URL + `api/payments/kcmobile/order`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -143,6 +148,7 @@ export default function CartScreen({ navigation }: any) {
 
         if (error) {
             Alert.alert(`Error code: ${error.code}`, error.message);
+            setShowAddressVerification(false)
         } else {
             Alert.alert(
                 "Success",
@@ -186,13 +192,14 @@ export default function CartScreen({ navigation }: any) {
     if (cart.length < 1) return EmptyCart
     if (!user.username) return <HomeScreen />
     if (!user.address) return <CollectShippingScreen />
+    if (showAddressVerification) return <VerifyDetails checkout={openPaymentSheet} visible={showAddressVerification} address={user.address} setVisible={setShowAddressVerification} />
     return (
         <>
             <Header />
             <ScrollView>
                 <Wrapper>
 
-                    <CartTotal disabled={loading} total={total} onCheckout={openPaymentSheet} />
+                    <CartTotal disabled={loading} total={total} onCheckout={() => setShowAddressVerification(true)} />
 
 
                     {cart && (

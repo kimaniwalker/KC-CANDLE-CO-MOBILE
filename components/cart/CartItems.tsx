@@ -46,17 +46,17 @@ export default function CartItems({ id, title, price, qty, images, size }: Props
                         <Qty>qty: {qty}</Qty>
                     </Item>
 
-                    <IconRow>
-                        <Button onPress={() => changeQty(id, qty - 1, size)}>
-                            <MaterialCommunityIcons name="cart-minus" size={32} color="white" />
-                        </Button>
+
+                    <MinusButton onPress={() => changeQty(id, qty - 1, size)}>
+                        <MaterialCommunityIcons name="cart-minus" size={32} color="white" />
+                    </MinusButton>
 
 
-                        <Button onPress={() => changeQty(id, qty + 1, size)}>
-                            <MaterialCommunityIcons name="cart-plus" size={32} color="white" />
-                        </Button>
+                    <PlusButton onPress={() => changeQty(id, qty + 1, size)}>
+                        <MaterialCommunityIcons name="cart-plus" size={32} color="white" />
+                    </PlusButton>
 
-                    </IconRow>
+
 
 
                 </Row>
@@ -141,6 +141,24 @@ const IconWrapper = styled.View`
     top: -15px;
     right: -10px;
     border-radius: 50%;
+`
+const MinusButton = styled.Pressable`
+    border-radius: 50%;
+    background-color: ${Colors.dark};
+    padding: 8px;
+    position: absolute;
+    bottom: 90px;
+    right: 240px;
+    
+`
+const PlusButton = styled.Pressable`
+    border-radius: 50%;
+    background-color: ${Colors.dark};
+    padding: 8px;
+    position: absolute;
+    bottom: 90px;
+    left: 240px;
+    
 `
 
 

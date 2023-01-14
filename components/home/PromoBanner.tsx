@@ -1,5 +1,7 @@
 
+import { SafeAreaView, StatusBar } from 'react-native'
 import styled from 'styled-components/native'
+import { Colors } from '../../styles/Colors'
 import { Fonts } from '../../styles/Fonts'
 
 type Props = {
@@ -11,11 +13,18 @@ type Props = {
 const PromoBanner = ({ message, handlePress, messagecolor }: Props) => {
 
     return (
-        <Wrapper>
-            <Button onPress={handlePress}>
-                <PromoMessage messagecolor={messagecolor}>{message}</PromoMessage>
-            </Button>
-        </Wrapper>
+        <>
+            <Content>
+                <SafeAreaView>
+                    <Wrapper>
+                        <Button onPress={handlePress}>
+                            <PromoMessage messagecolor={messagecolor}>{message}</PromoMessage>
+                        </Button>
+                    </Wrapper>
+                </SafeAreaView>
+            </Content>
+        </>
+
     )
 }
 
@@ -32,6 +41,10 @@ padding: 16px 24px;
 `
 const Button = styled.Pressable`
     width: 100%;
+`
+const Content = styled.View`
+    width: 100%;
+    background-color: #161c2d;
 `
 
 const PromoMessage = styled.Text<{ messagecolor: string }>`

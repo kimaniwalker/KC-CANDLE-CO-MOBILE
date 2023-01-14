@@ -14,7 +14,7 @@ export default function Hero({ handlePress }: Props) {
             <Wrapper>
                 <Button onPress={handlePress}>
                     <ImageWrapper>
-                        <ImageBackground imageStyle={{ borderRadius: 8 }} style={{ flex: 1 }} source={require('../../assets/viphero.png')} />
+                        <ImageBackground imageStyle={{ borderRadius: 8, resizeMode: 'contain' }} style={{ height: '100%', width: '100%' }} source={require('../../assets/viphero.png')} />
                     </ImageWrapper>
                 </Button>
             </Wrapper>

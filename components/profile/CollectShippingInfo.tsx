@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components/native'
-import { Text, View, TextInput, Button, Alert, ScrollView } from "react-native";
+import { Text, View, TextInput, Button, Alert, ScrollView, KeyboardAvoidingView } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import StyledButton from '../../styles/StyledButton';
 import Header from '../home/Header';
@@ -13,15 +13,10 @@ import { Fonts } from '../../styles/Fonts';
 import { Colors } from '../../styles/Colors';
 
 type Props = {
-    line1: string
-    line2?: string
-    postal_code: string | number
-    state: string
-    country: string
-    phone: string | number,
-    city: string
+    isVerification?: boolean
+    dismissModal?: () => void
 }
-export default function CollectShippingInfo() {
+export default function CollectShippingInfo({ isVerification = false, dismissModal }: Props) {
 
     const { user, setUser } = useUserContext()
     const address = user?.address?.split("-")
@@ -104,6 +99,10 @@ export default function CollectShippingInfo() {
                 animationType: "slide-in",
             })
 
+            if (isVerification && dismissModal) {
+                dismissModal()
+            }
+
 
         }
     };
@@ -112,186 +111,188 @@ export default function CollectShippingInfo() {
     if (!defaultValues) return null
     return (
         <>
-            <Header />
+            {!isVerification && <Header />}
             <ScrollView>
+                <KeyboardAvoidingView behavior='position'>
 
-                <Wrapper>
+                    <Wrapper>
 
-                    <Heading>Add your contact Info</Heading>
-                    <SubHeading>We need this information in order to send your packages to the correct address</SubHeading>
-                    <Content>
-                        <Label>Line1</Label>
-                        {errors.line1 && <ErrMessage>{errors.line1?.message}</ErrMessage>}
-                        <Controller
-                            control={control}
-                            rules={{
-                                required: {
-                                    value: true,
-                                    message: 'This is a required field'
-                                },
-                            }}
-                            render={({ field: { onChange, onBlur, value },
-                                fieldState: { error } }) => (
-                                <Input
-                                    isDirty={error ? true : false}
-                                    onBlur={onBlur}
-                                    onChangeText={onChange}
-                                    value={value}
-                                    defaultValue={defaultValues.line1}
-                                    placeholder={defaultValues.line1}
+                        <Heading>Add your contact Info</Heading>
+                        <SubHeading>We need this information in order to send your packages to the correct address</SubHeading>
+                        <Content>
+                            <Label>Line1</Label>
+                            {errors.line1 && <ErrMessage>{errors.line1?.message}</ErrMessage>}
+                            <Controller
+                                control={control}
+                                rules={{
+                                    required: {
+                                        value: true,
+                                        message: 'This is a required field'
+                                    },
+                                }}
+                                render={({ field: { onChange, onBlur, value },
+                                    fieldState: { error } }) => (
+                                    <Input
+                                        isDirty={error ? true : false}
+                                        onBlur={onBlur}
+                                        onChangeText={onChange}
+                                        value={value}
+                                        defaultValue={defaultValues.line1}
+                                        placeholder={defaultValues.line1}
 
-                                />
-                            )}
-                            name="line1"
-                        />
-                        <Label>Line2</Label>
-                        <Controller
-                            control={control}
-                            rules={{
-                                maxLength: 100,
-                            }}
-                            render={({ field: { onChange, onBlur, value, } }) => (
-                                <Input
-                                    onBlur={onBlur}
-                                    onChangeText={onChange}
-                                    defaultValue={defaultValues.line2}
-                                    placeholder={defaultValues.line2}
-                                    value={value}
-                                />
-                            )}
-                            name="line2"
-                        />
-                        <Label>Postal Code</Label>
-                        {errors.postal_code && <ErrMessage>{errors.postal_code?.message}</ErrMessage>}
-                        <Controller
-                            control={control}
-                            rules={{
-                                required: {
-                                    message: 'This is a required field',
-                                    value: true
-                                },
-                                maxLength: {
-                                    value: 5,
-                                    message: 'Invalid zip code'
-                                },
-                                minLength: {
-                                    value: 5,
-                                    message: 'Invalid zip code'
-                                },
-                                pattern: {
-                                    value: /^\d+$/,
-                                    message: 'Must consist of numbers only'
-                                }
+                                    />
+                                )}
+                                name="line1"
+                            />
+                            <Label>Line2</Label>
+                            <Controller
+                                control={control}
+                                rules={{
+                                    maxLength: 100,
+                                }}
+                                render={({ field: { onChange, onBlur, value, } }) => (
+                                    <Input
+                                        onBlur={onBlur}
+                                        onChangeText={onChange}
+                                        defaultValue={defaultValues.line2}
+                                        placeholder={defaultValues.line2}
+                                        value={value}
+                                    />
+                                )}
+                                name="line2"
+                            />
+                            <Label>Postal Code</Label>
+                            {errors.postal_code && <ErrMessage>{errors.postal_code?.message}</ErrMessage>}
+                            <Controller
+                                control={control}
+                                rules={{
+                                    required: {
+                                        message: 'This is a required field',
+                                        value: true
+                                    },
+                                    maxLength: {
+                                        value: 5,
+                                        message: 'Invalid zip code'
+                                    },
+                                    minLength: {
+                                        value: 5,
+                                        message: 'Invalid zip code'
+                                    },
+                                    pattern: {
+                                        value: /^\d+$/,
+                                        message: 'Must consist of numbers only'
+                                    }
 
-                            }}
-                            render={({ field: { onChange, onBlur, value },
-                                fieldState: { error } }) => (
-                                <Input
-                                    isDirty={error ? true : false}
-                                    onBlur={onBlur}
-                                    onChangeText={onChange}
-                                    defaultValue={defaultValues.postal_code}
-                                    placeholder={defaultValues.postal_code}
-                                    value={value}
-                                />
-                            )}
-                            name="postal_code"
-                        />
-                        <Label>City</Label>
-                        {errors.city && <ErrMessage>{errors.city?.message}</ErrMessage>}
-                        <Controller
-                            control={control}
-                            rules={{
-                                required: {
-                                    value: true,
-                                    message: 'This is a required field'
-                                },
-                            }}
-                            render={({ field: { onChange, onBlur, value },
-                                fieldState: { error } }) => (
-                                <Input
-                                    isDirty={error ? true : false}
-                                    onBlur={onBlur}
-                                    onChangeText={onChange}
-                                    defaultValue={defaultValues.city}
-                                    placeholder={defaultValues.city}
-                                    value={value}
-                                />
-                            )}
-                            name="city"
-                        />
-                        <Label>State</Label>
-                        {errors.state && <ErrMessage>{errors.state?.message}</ErrMessage>}
-                        <Controller
-                            control={control}
-                            rules={{
-                                required: {
-                                    value: true,
-                                    message: 'This is a required field'
-                                },
-                            }}
-                            render={({ field: { onChange, onBlur, value },
-                                fieldState: { error } }) => (
-                                <Input
-                                    isDirty={error ? true : false}
-                                    onBlur={onBlur}
-                                    onChangeText={onChange}
-                                    defaultValue={defaultValues.state}
-                                    placeholder={defaultValues.state}
-                                    value={value}
-                                />
-                            )}
-                            name="state"
-                        />
-                        <Label>Country</Label>
-                        {errors.country && <ErrMessage>{errors.country?.message}</ErrMessage>}
-                        <Controller
-                            control={control}
-                            rules={{
-                                required: {
-                                    value: true,
-                                    message: 'This is a required field'
-                                },
-                            }}
-                            render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
-                                <Input
-                                    isDirty={error ? true : false}
-                                    onBlur={onBlur}
-                                    onChangeText={onChange}
-                                    defaultValue={defaultValues.country}
-                                    placeholder={defaultValues.country}
-                                    value={value}
-                                />
-                            )}
-                            name="country"
-                        />
-                        <Label>Phone</Label>
-                        {errors.phone && <ErrMessage>{errors.phone?.message}</ErrMessage>}
-                        <Controller
-                            control={control}
-                            rules={{
-                                required: {
-                                    value: true,
-                                    message: 'This is a required field'
-                                },
-                            }}
-                            render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
-                                <Input
-                                    isDirty={error ? true : false}
-                                    onBlur={onBlur}
-                                    onChangeText={onChange}
-                                    defaultValue={defaultValues.phone}
-                                    placeholder={defaultValues.phone}
-                                    value={value}
-                                />
-                            )}
-                            name="phone"
+                                }}
+                                render={({ field: { onChange, onBlur, value },
+                                    fieldState: { error } }) => (
+                                    <Input
+                                        isDirty={error ? true : false}
+                                        onBlur={onBlur}
+                                        onChangeText={onChange}
+                                        defaultValue={defaultValues.postal_code}
+                                        placeholder={defaultValues.postal_code}
+                                        value={value}
+                                    />
+                                )}
+                                name="postal_code"
+                            />
+                            <Label>City</Label>
+                            {errors.city && <ErrMessage>{errors.city?.message}</ErrMessage>}
+                            <Controller
+                                control={control}
+                                rules={{
+                                    required: {
+                                        value: true,
+                                        message: 'This is a required field'
+                                    },
+                                }}
+                                render={({ field: { onChange, onBlur, value },
+                                    fieldState: { error } }) => (
+                                    <Input
+                                        isDirty={error ? true : false}
+                                        onBlur={onBlur}
+                                        onChangeText={onChange}
+                                        defaultValue={defaultValues.city}
+                                        placeholder={defaultValues.city}
+                                        value={value}
+                                    />
+                                )}
+                                name="city"
+                            />
+                            <Label>State</Label>
+                            {errors.state && <ErrMessage>{errors.state?.message}</ErrMessage>}
+                            <Controller
+                                control={control}
+                                rules={{
+                                    required: {
+                                        value: true,
+                                        message: 'This is a required field'
+                                    },
+                                }}
+                                render={({ field: { onChange, onBlur, value },
+                                    fieldState: { error } }) => (
+                                    <Input
+                                        isDirty={error ? true : false}
+                                        onBlur={onBlur}
+                                        onChangeText={onChange}
+                                        defaultValue={defaultValues.state}
+                                        placeholder={defaultValues.state}
+                                        value={value}
+                                    />
+                                )}
+                                name="state"
+                            />
+                            <Label>Country</Label>
+                            {errors.country && <ErrMessage>{errors.country?.message}</ErrMessage>}
+                            <Controller
+                                control={control}
+                                rules={{
+                                    required: {
+                                        value: true,
+                                        message: 'This is a required field'
+                                    },
+                                }}
+                                render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
+                                    <Input
+                                        isDirty={error ? true : false}
+                                        onBlur={onBlur}
+                                        onChangeText={onChange}
+                                        defaultValue={defaultValues.country}
+                                        placeholder={defaultValues.country}
+                                        value={value}
+                                    />
+                                )}
+                                name="country"
+                            />
+                            <Label>Phone</Label>
+                            {errors.phone && <ErrMessage>{errors.phone?.message}</ErrMessage>}
+                            <Controller
+                                control={control}
+                                rules={{
+                                    required: {
+                                        value: true,
+                                        message: 'This is a required field'
+                                    },
+                                }}
+                                render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => (
+                                    <Input
+                                        isDirty={error ? true : false}
+                                        onBlur={onBlur}
+                                        onChangeText={onChange}
+                                        defaultValue={defaultValues.phone}
+                                        placeholder={defaultValues.phone}
+                                        value={value}
+                                    />
+                                )}
+                                name="phone"
 
-                        />
+                            />
 
-                        <StyledButton buttonTitle="Submit" disabled={!isValid} onPress={handleSubmit(onSubmit)} />
-                    </Content>
-                </Wrapper>
+                            <StyledButton buttonTitle="Submit" disabled={!isValid} onPress={handleSubmit(onSubmit)} />
+                        </Content>
+                    </Wrapper>
+                </KeyboardAvoidingView>
             </ScrollView>
         </>
     )
