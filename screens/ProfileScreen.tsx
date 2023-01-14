@@ -30,7 +30,7 @@ export default function ProfileScreen({ navigation }: any) {
                             </View>
 
                         </>} />
-                    <OptionCard title='Logout' description='See the terms and conditions for your membership' handlePress={() => {
+                    <OptionCard title='Logout' description='Need to logout ? Press here.' handlePress={() => {
                         setUser({
                             id: "",
                             username: "",

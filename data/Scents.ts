@@ -27,7 +27,7 @@ export const Scents = [
 
     { label: 'Amour Autumn', value: 'Amour Autumn' },
     { label: 'Witches Brew', value: 'Witches Brew' },
-    { label: 'Fall Harvest', value: 'Sugar Cookie' },
+    { label: 'Fall Harvest', value: 'Fall Harvest' },
     { label: 'Pumpkin Pie', value: 'Pumpkin Pie' },
 ]
 

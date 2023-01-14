@@ -53,7 +53,7 @@ export default function Header({ logoUrl }: Props) {
 
         </LockWrapper>
 
-        : <Logo source={require('../../assets/logo.png')} />
+        : <Logo source={require('../../assets/KCICONPLAIN.png')} />
 
     return (
         <Content>
@@ -91,8 +91,8 @@ const Content = styled.View`
 
 `
 const Logo = styled(Image)`
-   height: 100px;
-   width: 100px;
+   height: 75px;
+   width: 75px;
 `
 const LockWrapper = styled.View`
     padding: 28px 25px 16px 0;

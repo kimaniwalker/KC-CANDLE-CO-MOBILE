@@ -224,6 +224,7 @@ export default function CandlePicker({ id }: Props) {
     return (
         <>
 
+
             <Wrapper>
                 <IconWrapper onPress={onButtonClick}>
                     {toggleEdit ? <Entypo name="save" size={32} color="white" />
@@ -232,7 +233,7 @@ export default function CandlePicker({ id }: Props) {
 
 
                 </IconWrapper>
-                <ScrollView showsVerticalScrollIndicator={false} style={{ marginBottom: 16 }}>
+                <ScrollView showsVerticalScrollIndicator={false}>
 
                     {Data.map(item => (
                         <Card key={item.month}>
@@ -263,12 +264,13 @@ export default function CandlePicker({ id }: Props) {
 
                         </Card>
                     ))}
-                    <Wrapper>
-                        <StyledButton disabled={false} buttonTitle={toggleEdit ? 'save' : 'edit'} onPress={onButtonClick}></StyledButton>
 
-                    </Wrapper>
+                    <StyledButton disabled={false} buttonTitle={toggleEdit ? 'save' : 'edit'} onPress={onButtonClick}></StyledButton>
+
+
                 </ScrollView>
             </Wrapper>
+
         </>
     )
 }
@@ -292,6 +294,8 @@ const Wrapper = styled.View`
     align-content: center;
     align-items: center;
     position: relative;
+    flex: 1;
+    margin-bottom: 24px;
 `
 
 
