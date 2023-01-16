@@ -37,13 +37,18 @@ export default () => {
             ],
             ios: {
                 supportsTablet: true,
-                bundleIdentifier: 'kustomcharmz.kcmobileapp'
+                bundleIdentifier: 'kustomcharmz.kcmobileapp',
+                infoPlist: {
+                    NSCameraUsageDescription: "This app uses the camera to scan cards for payments through Stripe."
+                }
             },
             android: {
                 adaptiveIcon: {
                     foregroundImage: "./assets/adaptive-icon.png",
                     backgroundColor: "#FFFFFF"
-                }
+                },
+                package: 'kustomcharmz.kcmobileapp',
+                versionCode: 1
             },
             web: {
                 favicon: "./assets/favicon.png"
