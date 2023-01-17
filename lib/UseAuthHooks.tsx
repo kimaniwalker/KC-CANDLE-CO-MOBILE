@@ -175,5 +175,33 @@ export async function getCustomerInfo(customer_id: string) {
     }
 }
 
+export async function deleteUser(id: string) {
+
+    let userbody = {
+        id: id
+    }
+
+
+    try {
+        const res = await fetch(URL + 'api/auth/deleteUser', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(userbody)
+        });
+        // waits until the request completes...
+        if (res.status === 200) {
+            const user = await res.json();
+            return user
+        } else {
+            Alert.alert('Something went wrong')
+            throw new Error("Something went wrong");
+        }
+
+    } catch (error: any) {
+        Alert.alert(error.message)
+    }
+}
 
 

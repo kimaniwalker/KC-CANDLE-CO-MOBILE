@@ -8,9 +8,12 @@ import Header from '../components/home/Header'
 import { Colors } from '../styles/Colors'
 import { removeItem } from '../lib/UseAuthHooks'
 import { Fonts } from '../styles/Fonts'
+import AccountDeletion from '../components/profile/AccountDeletion'
 
 export default function ProfileScreen({ navigation }: any) {
     const { user, setUser, setLoggedIn } = useUserContext()
+    const [showModal, setShowModal] = React.useState(false)
+
     React.useEffect(() => {
 
     }, [])
@@ -30,6 +33,9 @@ export default function ProfileScreen({ navigation }: any) {
                             </View>
 
                         </>} />
+                    <OptionCard title='Delete your account' description='Need to delete your account ? We would hate to see you go.' handlePress={() => {
+                        setShowModal(true)
+                    }} />
                     <OptionCard title='Logout' description='Need to logout ? Press here.' handlePress={() => {
                         setUser({
                             id: "",
@@ -51,6 +57,7 @@ export default function ProfileScreen({ navigation }: any) {
 
     /* const content = !user.address ? <CollectShippingInfo /> : vipContent */
     if (!user.customer_id) return <SubscriptionSignup />
+    if (showModal) return <AccountDeletion showModal={showModal} setShowModal={setShowModal} />
     return vipContent
 }
 
