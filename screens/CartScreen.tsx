@@ -139,7 +139,7 @@ export default function CartScreen({ navigation }: any) {
             setLoading(true);
 
         } else {
-            console.log(error)
+            Alert.alert(`Error code: ${error.code}`, error.message);
         }
     };
 
