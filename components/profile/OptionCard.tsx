@@ -33,7 +33,7 @@ export default function OptionCard({ title, description, children, handlePress, 
 
 const Wrapper = styled.View`
     width: 100%;
-    height: 250px;
+    min-height: 250px;
     border: solid black 2px;
     border-radius: 8px;
     margin: 16px auto;

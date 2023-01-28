@@ -72,7 +72,7 @@ const Content = styled.View`
    
     width: 350px;
     background-color: ${Colors.white};
-    height: 450px;
+    min-height: 450px;
     display: flex;
     justify-content: center;
     align-items: center;
