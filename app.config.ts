@@ -4,7 +4,7 @@ export default () => {
             name: "KC CANDLE CO",
             owner: "kimaniwalker",
             slug: "kcmobile",
-            version: "1.0.1",
+            version: "1.0.2",
             orientation: "portrait",
             icon: "./assets/KCICON.png",
             userInterfaceStyle: "light",
