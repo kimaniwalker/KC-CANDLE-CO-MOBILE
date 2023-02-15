@@ -23,7 +23,7 @@ export default function Home() {
             <Header />
             <ScrollView>
                 <Hero />
-                <Featured heading='New Year Same Great Candles' description='Become a vip member and get exclusive deals and discounts' buttonTitle='Shop Now' handlePress={() => navigation.navigate('Shop')} />
+                <Featured heading='Gift a candle to that special person' description='Become a vip member and get exclusive deals and discounts' buttonTitle='Shop Now' handlePress={() => navigation.navigate('Shop')} />
                 <FeaturedProducts headingVisible={true} />
                 <Collections />
             </ScrollView>
