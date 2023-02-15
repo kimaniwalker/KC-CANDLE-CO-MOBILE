@@ -14,7 +14,7 @@ export default function Hero({ handlePress }: Props) {
             <Wrapper>
                 <Button onPress={handlePress}>
                     <ImageWrapper>
-                        <ImageBackground imageStyle={{ borderRadius: 8, resizeMode: 'contain' }} style={{ height: '100%', width: '100%' }} source={require('../../assets/VALENTINESHERO.png')} />
+                        <ImageBackground imageStyle={{ borderRadius: 8, resizeMode: 'contain' }} style={{ height: '100%', width: '100%' }} source={require('../../assets/spring_hero.png')} />
                     </ImageWrapper>
                 </Button>
             </Wrapper>
