@@ -50,5 +50,5 @@ jobs:
         run: yarn install --immutable
 
       - name: Publish update
-        run: eas update --auto
+        run: eas update --branch production
       
