@@ -12,6 +12,7 @@ import { Colors } from '../../styles/Colors'
 import Constants from 'expo-constants';
 import { supabase } from '../../lib/supabase'
 import { createNewCalendar } from '../../lib/useCalendarHooks'
+import Loading from '../Loading'
 
 
 type Props = {
@@ -86,7 +87,7 @@ export default function Form({ isSignup, setShowSignUp, showSignUp }: Props) {
     const signInOption = isSignup ? 'Already a member ? Log back in by pressing here' : 'Don`t have an account yet ? Sign up and enjoy exclusive deals and membership perks by pressing here.'
     const buttonTitle = isSignup ? 'Sign up' : 'Login'
 
-    if (loading) return <Text>Loading</Text>
+    if (loading) return <Loading />
     return (
         <>
 
