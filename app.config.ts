@@ -39,6 +39,7 @@ export default () => {
             ios: {
                 supportsTablet: true,
                 bundleIdentifier: 'kustomcharmz.kcmobileapp',
+                usesAppleSignIn: true,
                 infoPlist: {
                     NSCameraUsageDescription: "This app uses the camera to scan cards for payments through Stripe."
                 }
