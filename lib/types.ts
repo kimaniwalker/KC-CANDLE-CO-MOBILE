@@ -5,6 +5,7 @@ export type UserInfo = {
     address: string
     customer_id: string
     role: string
+    push_token: string
 
 }
 export type UserInfoProps = {
@@ -47,5 +48,18 @@ export type CartItem = {
     }
     size: string
     qty: number
+}
+
+export type UserUpdateProps = {
+    user: {
+        id: string
+        username?: string
+        phone?: string
+        address?: string
+        customer_id?: string
+        role?: string
+        push_token?: string
+    }
+
 }
 

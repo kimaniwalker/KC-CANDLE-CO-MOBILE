@@ -1,6 +1,7 @@
 import { Alert } from "react-native";
-import { UserProps } from "./types";
+import { UserUpdateProps, UserProps } from "./types";
 import Constants from 'expo-constants';
+import { supabase } from "./supabase";
 
 const ENV = Constants.expoConfig?.extra?.APP_ENV
 const URL: string = ENV === 'production' ? Constants.expoConfig?.extra?.PRODUCTION_API_URL : Constants.expoConfig?.extra?.STAGING_API_URL
@@ -12,26 +13,20 @@ const URL: string = ENV === 'production' ? Constants.expoConfig?.extra?.PRODUCTI
  */
 
 
-export async function updateUser({ user }: UserProps) {
+export async function updateUser({ user }: UserUpdateProps) {
 
 
     try {
-        const res = await fetch(URL + 'api/auth/updateUser', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(user),
-        });
-        // waits until the request completes...
-        if (res.status === 200) {
-            const user = await res.json();
-            return user
+        const { error } = await supabase
+            .from('users')
+            .update(user)
+            .eq('id', user.id)
 
-        } else if (res.status === 401) {
-            Alert.alert('Invalid username and password combination')
-            return null
+        if (error) {
+            Alert.alert(error.message)
+            return error
         }
+        return null
 
     } catch (error: any) {
         Alert.alert(error.message)
@@ -48,7 +43,8 @@ export async function updateUserByEmail({ user }: UserProps) {
             phone: '',
             address: '',
             customer_id: '',
-            role: ''
+            role: '',
+            push_token: ''
         }
     })
 

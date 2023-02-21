@@ -21,7 +21,8 @@ export default () => {
                         merchantIdentifier: "merchant.kustomcharmz.kcmobileapp",
                         enableGooglePay: true
                     }
-                ]
+                ],
+                ["expo-apple-authentication"]
             ],
             updates: {
                 fallbackToCacheTimeout: 0,
@@ -38,6 +39,7 @@ export default () => {
             ios: {
                 supportsTablet: true,
                 bundleIdentifier: 'kustomcharmz.kcmobileapp',
+                usesAppleSignIn: true,
                 infoPlist: {
                     NSCameraUsageDescription: "This app uses the camera to scan cards for payments through Stripe."
                 }

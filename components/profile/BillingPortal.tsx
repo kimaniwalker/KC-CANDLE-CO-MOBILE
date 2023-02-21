@@ -5,6 +5,7 @@ import { getBillingPortalUrl } from '../../lib/useStripeHooks';
 import * as Linking from 'expo-linking';
 import { useNavigation } from '@react-navigation/native';
 import { useUserContext } from '../../context/user';
+import { getUser } from '../../lib/useAuthHooks';
 
 
 type Props = {
@@ -15,7 +16,7 @@ export default function BillingPortal({ customer_id }: Props) {
     const [key, setKey] = React.useState(0)
     const redirectUrl = Linking.createURL('billing');
     const [closed, setClosed] = React.useState(false)
-    const { getUser } = useUserContext()
+    const { user } = useUserContext()
     console.log(redirectUrl)
     const [url, setUrl] = React.useState<string | void>('')
     const navigation: any = useNavigation()
@@ -36,7 +37,7 @@ export default function BillingPortal({ customer_id }: Props) {
         if (url === 'https://www.kustomcharmz.com/profile') {
             navigation.navigate('Home')
             setKey(key + 1)
-            getUser()
+            getUser(user.id)
         }
 
     }

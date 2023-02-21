@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Alert } from 'react-native';
 import { UserInfo } from './types';
 import Constants from 'expo-constants';
+import { supabase } from './supabase';
 
 const ENV = Constants.expoConfig?.extra?.APP_ENV
 const URL: string = ENV === 'production' ? Constants.expoConfig?.extra?.PRODUCTION_API_URL : Constants.expoConfig?.extra?.STAGING_API_URL
@@ -29,13 +30,6 @@ export const storeUser = async ({ value, key }: StoreProps) => {
     }
 }
 
-const storeAuthToken = async (value: string) => {
-    try {
-        await AsyncStorage.setItem('authToken', value)
-    } catch (e) {
-        Alert.alert('Something went wrong')
-    }
-}
 
 export const removeItem = async (value: string) => {
     try {
@@ -56,97 +50,21 @@ export const checkIfUserExist = async (key: string) => {
     }
 }
 
-export async function getUser(username: string, password: string) {
+export const getUser = async (id: string | number) => {
+    const { data, error } = await supabase
+        .from('users')
+        .select()
+        .eq('id', id)
 
-
-    let userbody = {
-        username,
-        password
-    }
-
-    try {
-        const res = await fetch(URL + 'api/auth/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(userbody),
-        });
-        // waits until the request completes...
-        if (res.status === 200) {
-            const user = await res.json();
-            storeUser({
-                value: user.user, key: 'user'
-            })
-            storeAuthToken(user.token)
-            return user.user
-        } else if (res.status === 401) {
-            Alert.alert('Invalid username and password combination')
-            return null
-        }
-
-    } catch (error: any) {
+    if (error) {
         Alert.alert(error.message)
+        return
     }
+    return data
 
 }
 
-export async function Signup(username: string, password: string) {
-    let userbody = {
-        username,
-        password
-    }
 
-    try {
-        const res = await fetch(URL + 'api/auth/signup', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(userbody),
-        });
-        // waits until the request completes...
-        if (res.status === 200) {
-            const user = await res.json();
-            return user
-        } else {
-            Alert.alert('Something went wrong')
-            throw new Error("Something went wrong");
-        }
-
-    } catch (error: any) {
-        Alert.alert(error.message)
-    }
-}
-
-export async function getUserInfo(username: string) {
-
-    let userbody = {
-        username: username
-    }
-
-
-    try {
-        const res = await fetch(URL + 'api/auth/getuser', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(userbody)
-        });
-        // waits until the request completes...
-        if (res.status === 200) {
-            const user = await res.json();
-            return user
-        } else {
-            Alert.alert('Something went wrong')
-            throw new Error("Something went wrong");
-        }
-
-    } catch (error: any) {
-        Alert.alert(error.message)
-    }
-}
 export async function getCustomerInfo(customer_id: string) {
 
     let userbody = {
@@ -204,4 +122,29 @@ export async function deleteUser(id: string) {
     }
 }
 
+export const createNewUser = async (user: any) => {
+
+    const body = {
+        id: user.id,
+        address: '',
+        customer_id: '',
+        phone: user.phone,
+        username: user.email,
+        role: 'shopper'
+    }
+
+    try {
+        const { error } = await supabase
+            .from('users')
+            .insert(body)
+
+        if (error) {
+            Alert.alert(error.message)
+        }
+
+    } catch (error) {
+        console.error('An unexpected error happened occurred:', error)
+
+    }
+}
 

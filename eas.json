@@ -16,13 +16,17 @@
                 "APP_ENV": "production"
             },
             "ios": {
-                "enterpriseProvisioning": "adhoc"
+                "enterpriseProvisioning": "adhoc",
+                "resourceClass": "m1-medium"
             }
         },
         "production": {
             "channel": "production",
             "env": {
                 "APP_ENV": "production"
+            },
+            "ios": {
+                "resourceClass": "m1-medium"
             }
         }
     }

@@ -1,12 +1,12 @@
 import React from 'react'
 import styled from 'styled-components/native'
-import { Text, View, TextInput, Button, Alert, ScrollView, KeyboardAvoidingView } from "react-native";
+import { ScrollView, KeyboardAvoidingView } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import StyledButton from '../../styles/StyledButton';
 import Header from '../home/Header';
-import { UserContext, useUserContext } from '../../context/user';
+import { useUserContext } from '../../context/user';
 import { updateUser } from '../../lib/user';
-import { storeUser } from '../../lib/UseAuthHooks';
+import { storeUser } from '../../lib/useAuthHooks';
 import { UserInfo } from '../../lib/types';
 import { useToast } from 'react-native-toast-notifications';
 import { Fonts } from '../../styles/Fonts';
@@ -71,15 +71,15 @@ export default function CollectShippingInfo({ isVerification = false, dismissMod
 
         })
 
-        if (userUpdated) {
+        if (!userUpdated) {
             setUser({
                 id: user.id,
                 username: user.username,
                 phone: address.phone,
                 address: `${address.line1}-${address.line2}-${address.city}-${address.state}-${address.postal_code}-${address.country}`,
                 role: user.role,
-                customer_id: user.customer_id
-
+                customer_id: user.customer_id,
+                push_token: user.push_token
             })
             storeUser({
                 value: {
@@ -88,7 +88,8 @@ export default function CollectShippingInfo({ isVerification = false, dismissMod
                     phone: address.phone,
                     address: `${address.line1}-${address.line2}-${address.city}-${address.state}-${address.postal_code}-${address.country}`,
                     role: user.role,
-                    customer_id: user.customer_id
+                    customer_id: user.customer_id,
+                    push_token: user.push_token
                 }, key: 'user'
             })
 

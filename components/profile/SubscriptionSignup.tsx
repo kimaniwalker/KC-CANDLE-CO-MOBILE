@@ -98,9 +98,9 @@ export default function CheckoutScreen() {
 
 
 
-                        <OptionCard title="Monthly" buttonTitle="Purchase" subheading="" onPress={openPaymentSheetMonthly} price="20$" duration="/ per month" disabled={false}
+                        <OptionCard title="Monthly" buttonTitle="Purchase" subheading="" onPress={openPaymentSheetMonthly} price="$20" duration="/ per month" disabled={false}
                             children={<MembershipPerks />} />
-                        <OptionCard title="Yearly" buttonTitle="Purchase" subheading="Best Deal" onPress={openPaymentSheetYearly} price="140$" duration="/ per year" disabled={false} children={<MembershipPerks />} />
+                        <OptionCard title="Yearly" buttonTitle="Purchase" subheading="Best Deal" onPress={openPaymentSheetYearly} price="$140" duration="/ per year" disabled={false} children={<MembershipPerks />} />
 
 
 

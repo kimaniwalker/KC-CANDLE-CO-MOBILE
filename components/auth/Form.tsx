@@ -1,17 +1,18 @@
 import React from 'react'
-import { KeyboardAvoidingView, SafeAreaView, ScrollView } from 'react-native'
+import { Alert, KeyboardAvoidingView, ScrollView, Text } from 'react-native'
 import { useToast } from 'react-native-toast-notifications'
 import styled from 'styled-components/native'
 import { useUserContext } from '../../context/user'
-import { getUser, Signup, storeUser } from '../../lib/UseAuthHooks'
+import { createNewUser, getUser, storeUser } from '../../lib/useAuthHooks'
 import { Fonts } from '../../styles/Fonts'
 import StyledButton from '../../styles/StyledButton'
 import Header from '../home/Header'
 import { useForm, Controller } from "react-hook-form";
 import { Colors } from '../../styles/Colors'
 import Constants from 'expo-constants';
-
-
+import { supabase } from '../../lib/supabase'
+import { createNewCalendar } from '../../lib/useCalendarHooks'
+import Loading from '../Loading'
 
 
 type Props = {
@@ -23,6 +24,7 @@ export default function Form({ isSignup, setShowSignUp, showSignUp }: Props) {
 
     const ENV = Constants.expoConfig?.extra?.APP_ENV
     const URL: string = ENV === 'production' ? Constants.expoConfig?.extra?.PRODUCTION_API_URL : Constants.expoConfig?.extra?.STAGING_API_URL
+
     const { user, setUser, setLoggedIn } = useUserContext()
     const toast = useToast()
     const { control, handleSubmit, formState: { errors, isValid } } = useForm({
@@ -33,59 +35,22 @@ export default function Form({ isSignup, setShowSignUp, showSignUp }: Props) {
         mode: 'onChange'
     });
 
-    const handleLogin = async () => {
+    const [loading, setLoading] = React.useState(false)
 
-        const user = await getUser(control._formValues.username, control._formValues.password)
-        if (user) {
-            setLoggedIn(true)
-            setUser(user)
-            storeUser({ value: user, key: 'user' })
-        }
-    }
-    const createNewCalendar = async (id: number) => {
-
-        const body = {
-            userid: id,
-            january: 'Luxery Linen',
-            febuary: 'Caribbean Coconut',
-            march: 'Beach Bohemian',
-            april: 'Cannabis Flower',
-            may: 'Strawberry Poundcake',
-            june: 'Black Ice',
-            july: 'Coconut Lime',
-            august: 'French Vanilla',
-            september: 'Birthday Cake',
-            october: 'Witches Brew',
-            november: 'Amour Autumn',
-            december: 'Hot Apple Pie'
-        }
-
-        try {
-            const res = await fetch(`${URL}api/vip/createNewCalendar`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(body),
-            })
-            if (res.status === 200) {
-                const msg = await res.json()
-
-
-
-            } else {
-                throw new Error(await res.text())
+    async function signUpWithEmail() {
+        setLoading(true)
+        const { error, data } = await supabase.auth.signUp({
+            email: control._formValues.username,
+            password: control._formValues.password,
+        })
+        console.log(data)
+        if (error) {
+            Alert.alert(error.message)
+        } else {
+            if (data.user) {
+                await createNewCalendar(data.user.id)
+                await createNewUser(data.user)
             }
-        } catch (error) {
-            console.error('An unexpected error happened occurred:', error)
-
-        }
-    }
-    const handleSignup = async () => {
-
-        const newuser = await Signup(control._formValues.username, control._formValues.password)
-
-        if (newuser) {
-            const calendar = await createNewCalendar(newuser.done.insertId)
-
             toast.show('Your user was created successfully. Now log in.', {
                 type: "success",
                 placement: "bottom",
@@ -94,23 +59,39 @@ export default function Form({ isSignup, setShowSignUp, showSignUp }: Props) {
             })
             setShowSignUp(!showSignUp)
         }
+        setLoading(false)
+    }
+    async function signInWithEmail() {
+        setLoading(true)
+        const { data, error } = await supabase.auth.signInWithPassword({
+            email: control._formValues.username,
+            password: control._formValues.password,
+        })
 
+        if (error) Alert.alert(error.message)
+        if (data.session) {
+            const user = await getUser(data.session.user.id)
+            setLoggedIn(true)
+            if (user) {
+                setUser(user[0])
+                storeUser({ value: user[0], key: 'user' })
+            }
+        }
+        setLoading(false)
     }
 
-    const handlePress = isSignup ? handleSignup : handleLogin
+
+    const handlePress = isSignup ? signUpWithEmail : signInWithEmail
     const title = isSignup ? 'Sign Up' : 'Login'
     const subheading = isSignup ? 'Join our vip group and get exclusive deals and discounts' : 'Log back in and continue enjoying exclusive deals and discounts'
     const signInOption = isSignup ? 'Already a member ? Log back in by pressing here' : 'Don`t have an account yet ? Sign up and enjoy exclusive deals and membership perks by pressing here.'
     const buttonTitle = isSignup ? 'Sign up' : 'Login'
 
-
+    if (loading) return <Loading />
     return (
         <>
 
             <ScrollView>
-
-
-
                 <KeyboardAvoidingView behavior='position'>
                     <Header />
                     <Wrapper>
@@ -179,6 +160,7 @@ export default function Form({ isSignup, setShowSignUp, showSignUp }: Props) {
                             </SignInView>
                         </Content>
                         <StyledButton buttonTitle={buttonTitle} onPress={handleSubmit(handlePress)} disabled={!isValid} />
+
 
                     </Wrapper>
                 </KeyboardAvoidingView>

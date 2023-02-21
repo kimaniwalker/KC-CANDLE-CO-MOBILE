@@ -9,6 +9,7 @@ import { Entypo } from '@expo/vector-icons';
 import { Fonts } from '../../styles/Fonts';
 import Constants from 'expo-constants';
 import { Scents } from '../../data/Scents';
+import { getUserCalendar, updateCalendar } from '../../lib/useCalendarHooks';
 
 
 
@@ -116,7 +117,7 @@ export default function CandlePicker({ id }: Props) {
         },
     ]
 
-    const updateCalendar = async () => {
+    const updateCalendarContent = async () => {
 
         const body = {
             userid: id,
@@ -136,14 +137,10 @@ export default function CandlePicker({ id }: Props) {
         }
 
         try {
-            const res = await fetch(`${URL}api/vip/updateCalendar`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(body),
-            })
-            if (res.status === 200) {
-                const msg = await res.json()
 
+            const updateComplete = await updateCalendar(body)
+
+            if (!updateComplete) {
                 setToggleEdit(!toggleEdit)
                 Alert.alert(
                     "Success",
@@ -156,10 +153,9 @@ export default function CandlePicker({ id }: Props) {
                         }
                     ]
                 );
-
-            } else {
-                throw new Error(await res.text())
             }
+
+
         } catch (error: any) {
             console.error('An unexpected error happened occurred:', error)
             Alert.alert(error.message)
@@ -168,39 +164,26 @@ export default function CandlePicker({ id }: Props) {
     }
 
 
-    const getUserCalendar = async () => {
-
-
-        const body = {
-            userid: id
-        }
-
+    const getCalendar = async () => {
         try {
-            const res = await fetch(`${URL}api/vip/getUserCalendar`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(body),
-            })
-            if (res.status === 200) {
-                const msg = await res.json()
+            const data = await getUserCalendar(id)
 
-                setCalendar(msg.results)
-                setJanuary(msg.results.january)
-                setFebuary(msg.results.febuary)
-                setMarch(msg.results.march)
-                setApril(msg.results.april)
-                setMay(msg.results.may)
-                setJune(msg.results.june)
-                setJuly(msg.results.july)
-                setAugust(msg.results.august)
-                setSeptember(msg.results.september)
-                setOctober(msg.results.october)
-                setNovember(msg.results.november)
-                setDecember(msg.results.december)
-
-            } else {
-                throw new Error(await res.text())
+            if (data) {
+                setCalendar(data[0])
+                setJanuary(data[0].january)
+                setFebuary(data[0].febuary)
+                setMarch(data[0].march)
+                setApril(data[0].april)
+                setMay(data[0].may)
+                setJune(data[0].june)
+                setJuly(data[0].july)
+                setAugust(data[0].august)
+                setSeptember(data[0].september)
+                setOctober(data[0].october)
+                setNovember(data[0].november)
+                setDecember(data[0].december)
             }
+
         } catch (error) {
             console.error('An unexpected error happened occurred:', error)
 
@@ -208,16 +191,16 @@ export default function CandlePicker({ id }: Props) {
     }
 
     const onButtonClick = () => {
-        toggleEdit ? updateCalendar() : setToggleEdit(!toggleEdit)
+        toggleEdit ? updateCalendarContent() : setToggleEdit(!toggleEdit)
     }
 
 
     React.useEffect(() => {
-        getUserCalendar()
+        getCalendar()
     }, [])
 
     React.useEffect(() => {
-        getUserCalendar()
+        getCalendar()
     }, [key])
 
 
