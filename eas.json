@@ -16,7 +16,6 @@
                 "APP_ENV": "production"
             },
             "ios": {
-                "enterpriseProvisioning": "adhoc",
                 "resourceClass": "m1-medium"
             }
         },
