@@ -1,8 +1,9 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react'
 import { ScrollView } from 'react-native';
-import { WebView } from 'react-native-webview';
 import { useUserContext } from '../../context/user';
+import { registerForPushNotificationsAsync } from '../../lib/permissions';
+import AuthSelection from '../auth/AuthSelection';
 import Form from '../auth/Form';
 import Collections from './Collections';
 import Featured from './Featured';
@@ -11,11 +12,14 @@ import Header from './Header';
 import Hero from './Hero';
 import PromoBanner from './PromoBanner';
 
-
 export default function Home() {
     const { loggedIn } = useUserContext()
     const [showSignUp, setShowSignUp] = React.useState(false)
     const navigation: any = useNavigation()
+
+    React.useLayoutEffect(() => {
+        registerForPushNotificationsAsync()
+    }, [])
 
     const MobileHome = (
         <>
@@ -35,7 +39,8 @@ export default function Home() {
     if (showSignUp) return <Form isSignup={true} setShowSignUp={setShowSignUp} showSignUp={showSignUp} />
     return (
         <>
-            <Form isSignup={false} setShowSignUp={setShowSignUp} showSignUp={showSignUp} />
+            {/* <Form isSignup={false} setShowSignUp={setShowSignUp} showSignUp={showSignUp} /> */}
+            <AuthSelection />
         </>
     )
 }

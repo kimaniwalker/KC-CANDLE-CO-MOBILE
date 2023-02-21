@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { storeCart } from '../lib/cart';
-import { checkIfUserExist } from '../lib/UseAuthHooks';
+import { checkIfUserExist } from '../lib/useAuthHooks';
 import { useToast } from "react-native-toast-notifications";
 import { UserContext, useUserContext } from './user';
 

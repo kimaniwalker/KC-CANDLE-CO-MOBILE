@@ -1,7 +1,6 @@
 import React from 'react'
 import { useCartContext } from '../context/cart';
-import { usePaymentFunctions } from '../lib/useStripeHooks';
-import { Alert, ScrollView, Text } from 'react-native';
+import { Alert, ScrollView } from 'react-native';
 import CartTotal from '../components/cart/CartTotal';
 import CartItems from '../components/cart/CartItems';
 import styled from 'styled-components/native';
@@ -10,21 +9,19 @@ import { useUserContext } from '../context/user';
 import { Colors } from '../styles/Colors';
 import Header from '../components/home/Header';
 import FeaturedProducts from '../components/home/FeaturedProducts';
-import Featured from '../components/home/Featured';
-import Form from '../components/auth/Form';
 import HomeScreen from './HomeScreen';
-import SignUpScreen from './SignUpScreen';
 import CollectShippingScreen from './CollectShippingScreen';
 import { Fonts } from '../styles/Fonts';
 import Constants from 'expo-constants';
 import VerifyDetails from '../components/cart/VerifyDetails';
+import { getUser, storeUser } from '../lib/useAuthHooks';
 
 
 export default function CartScreen({ navigation }: any) {
     const ENV = Constants.expoConfig?.extra?.APP_ENV
     const URL: string = ENV === 'production' ? Constants.expoConfig?.extra?.PRODUCTION_API_URL : Constants.expoConfig?.extra?.STAGING_API_URL
     const { cart, metadata, appleParams, clearCartItems } = useCartContext()
-    const { user, getUser, setUser } = useUserContext()
+    const { user, setUser } = useUserContext()
     const total = cart?.reduce((total: number, product: any) => total + (product.price * product.qty), 0)
     const { initPaymentSheet, presentPaymentSheet } = useStripe()
     const [loading, setLoading] = React.useState(false)
@@ -155,9 +152,32 @@ export default function CartScreen({ navigation }: any) {
                 "We received your order. You will receive an email with your receipt shortly. Thank you for shopping with KC Candle Co,",
                 [
                     {
-                        text: "OK", onPress: () => {
+                        text: "OK", onPress: async () => {
                             clearCartItems()
-                            getUser()
+                            const userData = await getUser(user.id)
+                            if (userData) {
+                                setUser({
+                                    username: userData[0].username,
+                                    id: userData[0].id,
+                                    phone: userData[0].phone,
+                                    address: userData[0].address,
+                                    customer_id: userData[0].customer_id,
+                                    role: 'shopper',
+                                    push_token: user.push_token
+                                })
+                                storeUser({
+                                    value: {
+                                        username: userData[0].username,
+                                        id: userData[0].id,
+                                        phone: userData[0].phone,
+                                        address: userData[0].address,
+                                        customer_id: userData[0].customer_id,
+                                        role: 'shopper',
+                                        push_token: user.push_token
+                                    }, key: 'user'
+                                })
+
+                            }
                             navigation.navigate('Home')
                         }
                     }
@@ -179,10 +199,9 @@ export default function CartScreen({ navigation }: any) {
         <>
             <Header />
             <ScrollView>
-
                 <CartWrapper>
-
-                    <TextItem>You don't have any items in your cart. Add a item to your cart to get started.</TextItem>
+                    <TextItem>You don't have any items in your cart. Add a item to your cart to get started.
+                    </TextItem>
                     <FeaturedProducts headingVisible={false} />
                 </CartWrapper>
             </ScrollView>

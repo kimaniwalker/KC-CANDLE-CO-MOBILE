@@ -26,13 +26,22 @@ import CartScreen from './screens/CartScreen';
 import { ToastProvider } from 'react-native-toast-notifications'
 import CollectShippingScreen from './screens/CollectShippingScreen';
 import Constants from 'expo-constants';
+import * as Notifications from 'expo-notifications';
 
-
-
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
 
 export default function App() {
   const ENV = Constants.expoConfig?.extra?.APP_ENV
   const KEY: string = ENV === 'production' ? Constants.expoConfig?.extra?.STRIPEPK_PRODUCTION : Constants.expoConfig?.extra?.STRIPEPK_STAGING
+  const notificationListener = React.useRef<any>();
+  const responseListener = React.useRef<any>();
+  const [notification, setNotification] = React.useState<any>(false);
 
   React.useEffect(() => {
     initStripe({
@@ -41,7 +50,21 @@ export default function App() {
       urlScheme: "kcmobile",
     });
 
+    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+      setNotification(notification)
+    });
+
+    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+      console.log(response);
+    });
+
+    return () => {
+      Notifications.removeNotificationSubscription(notificationListener.current);
+      Notifications.removeNotificationSubscription(responseListener.current);
+    };
   }, []);
+
+
 
   const { loggedIn } = useUserContext()
   let [fontsLoaded] = useFonts({

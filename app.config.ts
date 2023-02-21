@@ -21,7 +21,8 @@ export default () => {
                         merchantIdentifier: "merchant.kustomcharmz.kcmobileapp",
                         enableGooglePay: true
                     }
-                ]
+                ],
+                ["expo-apple-authentication"]
             ],
             updates: {
                 fallbackToCacheTimeout: 0,

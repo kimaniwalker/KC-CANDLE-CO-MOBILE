@@ -6,7 +6,7 @@ import styled from 'styled-components/native'
 import { ScrollView, Text, View } from 'react-native'
 import Header from '../components/home/Header'
 import { Colors } from '../styles/Colors'
-import { removeItem } from '../lib/UseAuthHooks'
+import { removeItem } from '../lib/useAuthHooks'
 import { Fonts } from '../styles/Fonts'
 import AccountDeletion from '../components/profile/AccountDeletion'
 
@@ -44,6 +44,7 @@ export default function ProfileScreen({ navigation }: any) {
                             address: "",
                             customer_id: "",
                             role: "",
+                            push_token: ""
                         })
                         setLoggedIn(false)
                         removeItem('user')

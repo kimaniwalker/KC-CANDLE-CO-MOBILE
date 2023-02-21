@@ -6,7 +6,7 @@ import { Fonts } from '../../styles/Fonts'
 import StyledButton from '../../styles/StyledButton'
 import { MaterialIcons } from '@expo/vector-icons';
 import { UserContext, useUserContext } from '../../context/user'
-import { deleteUser, removeItem } from '../../lib/UseAuthHooks'
+import { deleteUser, removeItem } from '../../lib/useAuthHooks'
 import { useNavigation } from '@react-navigation/native'
 
 type Props = {
@@ -28,6 +28,7 @@ export default function AccountDeletion({ showModal, setShowModal }: Props) {
             address: "",
             customer_id: "",
             role: "",
+            push_token: ""
         })
         setLoggedIn(false)
         removeItem('user')

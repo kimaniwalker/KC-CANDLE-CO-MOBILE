@@ -1,13 +1,10 @@
 import React, { useState, createContext, SetStateAction } from "react";
-import { checkIfUserExist, getCustomerInfo, getUserInfo } from "../lib/UseAuthHooks";
+import { checkIfUserExist, getCustomerInfo, } from "../lib/useAuthHooks";
 import { UserInfo } from '../lib/types'
 
 interface UserProviderProps {
     children: React.ReactNode
 }
-
-
-
 
 export const UserContext = createContext({
     loggedIn: false,
@@ -19,10 +16,10 @@ export const UserContext = createContext({
         address: '',
         customer_id: '',
         role: '',
+        push_token: ''
 
     },
     setUser: (user: UserInfo) => { },
-    getUser: () => { },
     customer: {}
 });
 
@@ -36,13 +33,12 @@ export const UserWrapper = ({ children }: UserProviderProps) => {
         address: '',
         customer_id: '',
         role: '',
+        push_token: ''
     })
     const [customer, setCustomer] = useState<any>({})
 
 
-
     React.useEffect(() => {
-
         getPrevSession()
         findCustomerInfo()
     }, [])
@@ -57,19 +53,10 @@ export const UserWrapper = ({ children }: UserProviderProps) => {
     const getPrevSession = async () => {
         let session = await checkIfUserExist('user')
         if (session && session.customer_id) {
-
             setUser(session)
             setLoggedIn(true)
         }
 
-    }
-
-    const getUser = async () => {
-        const myuser = await getUserInfo(user.username)
-
-        if (myuser) {
-            setUser(myuser)
-        }
     }
 
     const findCustomerInfo = async () => {
@@ -83,7 +70,7 @@ export const UserWrapper = ({ children }: UserProviderProps) => {
 
 
     return (
-        <UserContext.Provider value={{ loggedIn, setLoggedIn, user, setUser, getUser, customer }}>
+        <UserContext.Provider value={{ loggedIn, setLoggedIn, user, setUser, customer }}>
             {children}
         </UserContext.Provider>
     );
