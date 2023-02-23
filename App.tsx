@@ -37,7 +37,7 @@ Notifications.setNotificationHandler({
 });
 
 export default function App() {
-  const ENV = Constants.expoConfig?.extra?.APP_ENV
+  const ENV = 'production'
   const KEY: string = ENV === 'production' ? Constants.expoConfig?.extra?.STRIPEPK_PRODUCTION : Constants.expoConfig?.extra?.STRIPEPK_STAGING
   const notificationListener = React.useRef<any>();
   const responseListener = React.useRef<any>();

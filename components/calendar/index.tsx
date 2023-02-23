@@ -7,7 +7,7 @@ import Constants from 'expo-constants';
 
 
 export default function Calendar() {
-    const ENV = Constants.expoConfig?.extra?.APP_ENV
+    const ENV = "production"
     const URL: string = ENV === 'production' ? Constants.expoConfig?.extra?.PRODUCTION_API_URL : Constants.expoConfig?.extra?.STAGING_API_URL
 
     const [key, setKey] = React.useState(0)

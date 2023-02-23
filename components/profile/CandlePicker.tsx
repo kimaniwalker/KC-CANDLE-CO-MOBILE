@@ -19,7 +19,7 @@ type Props = {
 
 
 export default function CandlePicker({ id }: Props) {
-    const ENV = Constants.expoConfig?.extra?.APP_ENV
+    const ENV = "production"
     const URL: string = ENV === 'production' ? Constants.expoConfig?.extra?.PRODUCTION_API_URL : Constants.expoConfig?.extra?.STAGING_API_URL
 
     const { user } = useUserContext()

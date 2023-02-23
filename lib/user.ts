@@ -3,7 +3,7 @@ import { UserUpdateProps, UserProps } from "./types";
 import Constants from 'expo-constants';
 import { supabase } from "./supabase";
 
-const ENV = Constants.expoConfig?.extra?.APP_ENV
+const ENV = "production"
 const URL: string = ENV === 'production' ? Constants.expoConfig?.extra?.PRODUCTION_API_URL : Constants.expoConfig?.extra?.STAGING_API_URL
 
 

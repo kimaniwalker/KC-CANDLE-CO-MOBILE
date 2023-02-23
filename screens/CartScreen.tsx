@@ -18,7 +18,7 @@ import { getUser, storeUser } from '../lib/useAuthHooks';
 
 
 export default function CartScreen({ navigation }: any) {
-    const ENV = Constants.expoConfig?.extra?.APP_ENV
+    const ENV = "production"
     const URL: string = ENV === 'production' ? Constants.expoConfig?.extra?.PRODUCTION_API_URL : Constants.expoConfig?.extra?.STAGING_API_URL
     const { cart, metadata, appleParams, clearCartItems } = useCartContext()
     const { user, setUser } = useUserContext()
