@@ -2,7 +2,7 @@ import { Alert } from "react-native";
 import { useStripe } from "@stripe/stripe-react-native";
 import Constants from 'expo-constants';
 
-const ENV = Constants.expoConfig?.extra?.APP_ENV
+const ENV = 'production'
 const URL: string = ENV === 'production' ? Constants.expoConfig?.extra?.PRODUCTION_API_URL : Constants.expoConfig?.extra?.STAGING_API_URL
 
 
