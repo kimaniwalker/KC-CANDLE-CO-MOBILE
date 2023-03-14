@@ -108,10 +108,12 @@ export function CartWrapper({ children }) {
         setMetadata(items)
         setAppleParams(applePayParams)
 
+        return items
+
     }
 
     return (
-        <CartContext.Provider value={{ cart, setCart, addToCart, changeQty, clearCartItems, removeCartItem, getCartItems, metadata, appleParams }} >
+        <CartContext.Provider value={{ cart, setCart, addToCart, changeQty, clearCartItems, removeCartItem, getCartItems, metadata, appleParams, generateMetadata }} >
             {children}
         </CartContext.Provider>
     );

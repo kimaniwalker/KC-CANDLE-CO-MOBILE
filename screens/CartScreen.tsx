@@ -19,8 +19,8 @@ import { getUser, storeUser } from '../lib/useAuthHooks';
 
 export default function CartScreen({ navigation }: any) {
     const ENV = "production"
-    const URL: string = ENV === 'production' ? Constants.expoConfig?.extra?.PRODUCTION_API_URL : Constants.expoConfig?.extra?.STAGING_API_URL
-    const { cart, metadata, appleParams, clearCartItems } = useCartContext()
+    const URL: string = ENV === "production" ? Constants.expoConfig?.extra?.PRODUCTION_API_URL : Constants.expoConfig?.extra?.STAGING_API_URL
+    const { cart, metadata, appleParams, clearCartItems, generateMetadata } = useCartContext()
     const { user, setUser } = useUserContext()
     const total = cart?.reduce((total: number, product: any) => total + (product.price * product.qty), 0)
     const { initPaymentSheet, presentPaymentSheet } = useStripe()
@@ -39,12 +39,13 @@ export default function CartScreen({ navigation }: any) {
 
     const fetchPaymentSheetParams = async () => {
 
+
         const paymentinfo = {
             amount: total * 100 + shipping * 100,
             customer_id: user.customer_id,
             username: user.username,
             description: description,
-            metadata: metadata,
+            metadata: generateMetadata(),
             address: user.address,
             phone: user.phone
         }

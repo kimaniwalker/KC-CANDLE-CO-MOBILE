@@ -216,7 +216,7 @@ export const Products = [
         ],
         isAvailable: true,
         description: "Sweet orange, tangy cherry, sweet vanilla bean with sandalwood.",
-        disclaimer: "Images do not currently reflect actual product",
+        disclaimer: "Image featured in product image is a 12oz candle",
         category: "candle",
         images: [
             require('../assets/products/fruityloops.png'),
